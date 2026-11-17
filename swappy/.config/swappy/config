@@ -1,0 +1,9 @@
+# =============================================================
+#  swappy — editor de capturas de tela (abre depois do Print)
+#  Desenhe, escreva, depois Ctrl+S para salvar ou Ctrl+C para copiar.
+# =============================================================
+
+[Default]
+save_dir=$HOME/Imagens/Capturas de tela
+save_filename_format=Captura de tela de %Y-%m-%d %H-%M-%S.png
+early_exit=true

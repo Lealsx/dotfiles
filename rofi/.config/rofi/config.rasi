@@ -1,0 +1,53 @@
+/* =============================================================
+   Rofi — menu de aplicativos (Super + D)
+   Digite para buscar, Enter para abrir, Esc para fechar.
+   ============================================================= */
+
+configuration {
+    modi: "drun,window,run";
+    show-icons: true;
+    icon-theme: "Adwaita";
+    display-drun: "Apps";
+    display-window: "Janelas";
+    display-run: "Comandos";
+    drun-display-format: "{name}";
+    font: "JetBrainsMono Nerd Font 12";
+}
+
+* {
+    fundo:   #1e1e2ef2;
+    fundo2:  #313244;
+    texto:   #cdd6f4;
+    apagado: #6c7086;
+    azul:    #89b4fa;
+
+    background-color: transparent;
+    text-color: @texto;
+}
+
+window {
+    width: 600px;
+    background-color: @fundo;
+    border: 2px;
+    border-color: @azul;
+    border-radius: 14px;
+}
+
+mainbox  { padding: 14px; spacing: 10px; }
+
+inputbar {
+    background-color: @fundo2;
+    border-radius: 10px;
+    padding: 10px 14px;
+    spacing: 10px;
+    children: [ prompt, entry ];
+}
+prompt   { text-color: @azul; }
+entry    { placeholder: "Buscar..."; placeholder-color: @apagado; }
+
+listview { lines: 8; columns: 1; spacing: 4px; scrollbar: false; }
+
+element  { padding: 8px 12px; border-radius: 8px; spacing: 12px; }
+element selected.normal { background-color: @azul; text-color: #1e1e2e; }
+element-icon { size: 24px; }
+element-text { text-color: inherit; vertical-align: 0.5; }

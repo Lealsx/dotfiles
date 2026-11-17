@@ -1,0 +1,8 @@
+# Backups criados pelo instalar.sh
+*.bak
+
+# Arquivos temporários de editores
+*.swp
+*~
+.vscode/
+.idea/

@@ -1,0 +1,110 @@
+// =============================================================
+//  Waybar — a barra do topo
+// =============================================================
+//  Esquerda: menu, áreas de trabalho, janela atual
+//  Centro:   relógio (clique = calendário)
+//  Direita:  teclado, volume, brilho, rede, bateria, ícones, energia
+//  Doc: https://github.com/Alexays/Waybar/wiki
+// =============================================================
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "margin-top": 6,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 6,
+
+    "modules-left":   ["custom/menu", "hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "battery", "tray", "custom/energia"],
+
+    // Botão que abre o menu de aplicativos
+    "custom/menu": {
+        "format": "",
+        "tooltip-format": "Aplicativos (Super + D)",
+        "on-click": "rofi -show drun"
+    },
+
+    // Áreas de trabalho: clique para ir, rolar para passar
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+        "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'"
+    },
+
+    // Título da janela com foco
+    "hyprland/window": {
+        "max-length": 50,
+        "separate-outputs": true
+    },
+
+    "clock": {
+        "locale": "pt_BR.UTF-8",
+        "format": "{:%H:%M}",
+        "format-alt": "{:%A, %d de %B  %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "format": {
+                "months": "<span color='#cba6f7'><b>{}</b></span>",
+                "today":  "<span color='#89b4fa'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+
+    // Teclado atual: clique para trocar (o mesmo que Super + Espaço)
+    "hyprland/language": {
+        "format": "󰌌 {}",
+        "format-en": "US",
+        "format-pt": "BR",
+        "on-click": "hyprctl switchxkblayout all next"
+    },
+
+    // Volume: clique = mudo | botão direito = controle de som | rolar = volume
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 mudo",
+        "format-icons": { "headphone": "", "default": ["", "", ""] },
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "scroll-step": 5
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    // Rede: clique = configurações de rede
+    "network": {
+        "format-wifi": " {essid}",
+        "format-ethernet": "󰈀 cabo",
+        "format-disconnected": "󰖪 sem rede",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "battery": {
+        "states": { "warning": 25, "critical": 10 },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁼", "󰁾", "󰂀", "󰂂", "󰁹"],
+        "tooltip-format": "{timeTo}"
+    },
+
+    // Ícones de apps em segundo plano (Wi-Fi, Bluetooth, etc.)
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "custom/energia": {
+        "format": "",
+        "tooltip-format": "Energia (Super + Esc)",
+        "on-click": "~/.config/hypr/scripts/menu-energia.sh"
+    }
+}

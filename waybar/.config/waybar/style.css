@@ -1,0 +1,71 @@
+/* =============================================================
+   Waybar — visual (Catppuccin Mocha)
+   ============================================================= */
+
+@define-color fundo     #1e1e2e;
+@define-color fundo2    #313244;
+@define-color texto     #cdd6f4;
+@define-color apagado   #6c7086;
+@define-color azul      #89b4fa;
+@define-color lilas     #cba6f7;
+@define-color verde     #a6e3a1;
+@define-color amarelo   #f9e2af;
+@define-color vermelho  #f38ba8;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 13px;
+    border: none;
+    min-height: 0;
+}
+
+/* A barra em si: transparente, os módulos é que têm fundo */
+window#waybar {
+    background: transparent;
+    color: @texto;
+}
+
+/* Cada módulo vira uma "pílula" arredondada */
+#custom-menu, #workspaces, #window, #clock, #language, #pulseaudio,
+#backlight, #network, #battery, #tray, #custom-energia {
+    background: alpha(@fundo, 0.85);
+    border-radius: 10px;
+    padding: 0 12px;
+}
+
+/* Quando não há janela aberta, esconde a pílula do título */
+window#waybar.empty #window { background: transparent; }
+
+#custom-menu    { color: @azul; font-size: 16px; padding: 0 14px; }
+#custom-energia { color: @vermelho; padding: 0 14px; }
+
+#workspaces { padding: 0 4px; }
+#workspaces button {
+    color: @apagado;
+    padding: 0 8px;
+    border-radius: 8px;
+    background: transparent;
+}
+#workspaces button.active  { color: @fundo; background: @azul; }
+#workspaces button.urgent  { color: @fundo; background: @vermelho; }
+#workspaces button:hover   { background: @fundo2; color: @texto; }
+
+#clock      { color: @lilas; font-weight: bold; }
+#language   { color: @azul; }
+#pulseaudio { color: @azul; }
+#pulseaudio.muted { color: @apagado; }
+#backlight  { color: @amarelo; }
+#network    { color: @verde; }
+#network.disconnected { color: @vermelho; }
+
+#battery          { color: @verde; }
+#battery.charging { color: @verde; }
+#battery.warning:not(.charging)  { color: @amarelo; }
+#battery.critical:not(.charging) { color: @vermelho; }
+
+tooltip {
+    background: @fundo;
+    border: 1px solid @azul;
+    border-radius: 10px;
+}
+tooltip label { color: @texto; }

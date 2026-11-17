@@ -1,0 +1,47 @@
+# Pacotes necessários (repositórios oficiais do Arch)
+# Instalados pelo instalar.sh. Linhas com # são comentários.
+
+# Hyprland e companhia
+hyprland
+uwsm
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+hyprlock
+hypridle
+hyprpaper
+hyprpolkitagent
+hyprsunset
+
+# Barra, menu, notificações, terminal
+waybar
+rofi
+mako
+kitty
+libnotify
+
+# Área de transferência e capturas de tela
+wl-clipboard
+cliphist
+grim
+slurp
+swappy
+
+# Teclas do notebook, som, rede e bluetooth
+brightnessctl
+playerctl
+pavucontrol
+network-manager-applet
+blueman
+
+# Aparência e compatibilidade
+nwg-look
+qt5-wayland
+qt6-wayland
+ttf-jetbrains-mono-nerd
+xdg-user-dirs
+
+# Arquivos
+nautilus
+
+# Para instalar estes dotfiles
+stow

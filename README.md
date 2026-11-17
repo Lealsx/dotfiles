@@ -1,0 +1,118 @@
+# dotfiles
+
+Minhas configurações do **Arch Linux + Hyprland**, comentadas em português.
+
+Tema escuro **Catppuccin Mocha**, cantos arredondados, desfoque e animações suaves.
+Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacional** e **português ABNT2**.
+
+## O que tem aqui
+
+| Pasta | Programa | Para que serve |
+|---|---|---|
+| `hypr/` | [Hyprland](https://hypr.land) 0.57+ | Gerenciador de janelas (config em **Lua**) + bloqueio, inatividade e papel de parede |
+| `waybar/` | [Waybar](https://github.com/Alexays/Waybar) | Barra do topo |
+| `rofi/` | [Rofi](https://github.com/davatorium/rofi) | Menu de aplicativos |
+| `mako/` | [mako](https://github.com/emersion/mako) | Notificações |
+| `kitty/` | [kitty](https://sw.kovidgoyal.net/kitty/) | Terminal |
+| `swappy/` | [swappy](https://github.com/jtheoof/swappy) | Editor de capturas de tela |
+
+Cada pasta segue o formato do [GNU Stow](https://www.gnu.org/software/stow/):
+`hypr/.config/hypr/...` vira `~/.config/hypr/...` através de um link simbólico.
+Assim, editar o arquivo em `~/.config` é o mesmo que editar aqui no repositório.
+
+### Arquivos do Hyprland
+
+```
+hypr/.config/hypr/
+├── hyprland.lua     → arquivo principal (carrega os outros)
+├── programas.lua    → terminal, navegador, editor...
+├── ambiente.lua     → variáveis de ambiente
+├── inicio.lua       → o que abre ao iniciar
+├── aparencia.lua    → cores, bordas, desfoque, animações
+├── entrada.lua      → teclado, touchpad, gestos
+├── atalhos.lua      → atalhos de teclado
+├── regras.lua       → regras de janelas
+├── hyprlock.conf    → tela de bloqueio
+├── hypridle.conf    → bloqueio/suspensão por inatividade
+├── hyprpaper.conf   → papel de parede
+└── scripts/         → menu de energia, prints, histórico do copiar
+```
+
+## Instalação
+
+```bash
+git clone git@github.com:Lealsx/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./instalar.sh
+```
+
+O `instalar.sh` instala os pacotes de `pacotes.txt` e cria os links com o `stow`.
+Depois é só sair da sessão e escolher **Hyprland (uwsm-managed)** na tela de login.
+
+## Atalhos
+
+`Super` = tecla do Windows.
+
+> **Esqueceu um atalho?** Aperte `Super + F1`: abre a lista de todos os atalhos, com busca.
+> A lista é lida direto do Hyprland (`hyprctl binds`), a partir das descrições em `atalhos.lua`.
+
+### Programas
+| Atalho | Ação |
+|---|---|
+| `Super + Enter` | Terminal |
+| `Super + D` | Menu de aplicativos |
+| `Super + Tab` | Lista de janelas abertas |
+| `Super + E` | Arquivos |
+| `Super + B` | Navegador |
+| `Super + C` | VS Code |
+
+### Janelas
+| Atalho | Ação |
+|---|---|
+| `Super + Q` | Fechar janela |
+| `Super + F` | Tela cheia |
+| `Super + M` | Maximizar (mantém a barra) |
+| `Super + V` | Soltar/encaixar a janela (flutuante) |
+| `Super + J` | Alternar divisão em pé/deitado |
+| `Super + ←↑→↓` | Mudar o foco |
+| `Super + Shift + ←↑→↓` | Mover a janela |
+| `Super + arrastar (botão esquerdo)` | Mover com o mouse |
+| `Super + arrastar (botão direito)` | Redimensionar com o mouse |
+
+### Áreas de trabalho
+| Atalho | Ação |
+|---|---|
+| `Super + 1…0` | Ir para a área 1…10 |
+| `Super + Shift + 1…0` | Mandar a janela para a área 1…10 |
+| `Super + rolar o mouse` | Passar pelas áreas |
+| 3 dedos para os lados no touchpad | Passar pelas áreas |
+| `Super + S` | Mostrar/esconder a área "rascunho" |
+| `Super + Shift + S` | Mandar a janela para o rascunho |
+
+### Sistema
+| Atalho | Ação |
+|---|---|
+| `Super + Espaço` | Trocar teclado US ⇄ BR |
+| `Super + L` | Bloquear a tela |
+| `Super + Esc` | Menu de energia (bloquear, suspender, sair, reiniciar, desligar) |
+| `Super + Shift + V` | Histórico do copiar/colar |
+| `Super + N` | Limpar notificações |
+| `Print` ou `Super + Shift + P` | Print de uma área (abre o editor) |
+| `Shift + Print` | Print da tela inteira |
+
+### Acentos no teclado inglês (layout internacional)
+| Para | Digite |
+|---|---|
+| á é í ó ú | `'` + letra |
+| â ê ô | `^` + letra |
+| ã õ | `~` + letra |
+| à | `` ` `` + a |
+| ç | `AltGr + ,` |
+| `'` ou `"` sozinho | a tecla + Espaço |
+
+## Dicas
+
+- Checar erros na config do Hyprland: `Hyprland --verify-config`
+- Ver o nome/classe das janelas (para criar regras): `hyprctl clients`
+- Trocar o papel de parede: edite `hypr/.config/hypr/hyprpaper.conf`
+- Rodar um app na placa NVIDIA: `prime-run <app>`
