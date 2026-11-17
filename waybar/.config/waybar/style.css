@@ -26,8 +26,8 @@ window#waybar {
 }
 
 /* Cada módulo vira uma "pílula" arredondada */
-#custom-menu, #workspaces, #window, #clock, #language, #pulseaudio,
-#backlight, #network, #battery, #tray, #custom-energia {
+#custom-menu, #workspaces, #window, #clock, #mpris, #language, #pulseaudio,
+#backlight, #network, #custom-economia, #battery, #tray, #custom-energia {
     background: alpha(@fundo, 0.85);
     border-radius: 10px;
     padding: 0 12px;
@@ -51,12 +51,37 @@ window#waybar.empty #window { background: transparent; }
 #workspaces button:hover   { background: @fundo2; color: @texto; }
 
 #clock      { color: @lilas; font-weight: bold; }
+
+/* Outros players (YouTube etc.): verde tocando, apagado pausado */
+#mpris        { color: @verde; }
+#mpris.paused { color: @apagado; }
+
+/* Spotify: uma pílula só com a música e os botões */
+@define-color spotify #1db954;
+#spotify {
+    background: alpha(@fundo, 0.85);
+    border-radius: 10px;
+    padding: 0 6px;
+}
+#custom-spotify          { color: @spotify; padding: 0 8px; }
+#custom-spotify.fechado  { color: @apagado; }
+#custom-spotify.pausado  { color: @apagado; }
+#custom-spotify-anterior,
+#custom-spotify-play,
+#custom-spotify-proxima  { color: @texto; padding: 0 7px; }
+#custom-spotify-anterior:hover,
+#custom-spotify-play:hover,
+#custom-spotify-proxima:hover { color: @spotify; }
 #language   { color: @azul; }
 #pulseaudio { color: @azul; }
 #pulseaudio.muted { color: @apagado; }
 #backlight  { color: @amarelo; }
 #network    { color: @verde; }
 #network.disconnected { color: @vermelho; }
+
+/* Modo economia: folha verde quando ligado, apagada quando desligado */
+#custom-economia.ligado    { color: @verde; }
+#custom-economia.desligado { color: @apagado; }
 
 #battery          { color: @verde; }
 #battery.charging { color: @verde; }

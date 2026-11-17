@@ -2,7 +2,7 @@
 //  Waybar — a barra do topo
 // =============================================================
 //  Esquerda: menu, áreas de trabalho, janela atual
-//  Centro:   relógio (clique = calendário)
+//  Centro:   relógio (clique = calendário) + Spotify + outros players (YouTube...)
 //  Direita:  teclado, volume, brilho, rede, bateria, ícones, energia
 //  Doc: https://github.com/Alexays/Waybar/wiki
 // =============================================================
@@ -16,12 +16,12 @@
     "spacing": 6,
 
     "modules-left":   ["custom/menu", "hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["clock"],
-    "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "battery", "tray", "custom/energia"],
+    "modules-center": ["clock", "group/spotify", "mpris"],
+    "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "custom/economia", "battery", "tray", "custom/energia"],
 
     // Botão que abre o menu de aplicativos
     "custom/menu": {
-        "format": "",
+        "format": "\uf303",
         "tooltip-format": "Aplicativos (Super + D)",
         "on-click": "rofi -show drun"
     },
@@ -53,6 +53,64 @@
         }
     },
 
+    // ---------- Spotify ----------
+    // Um "grupo" junta vários módulos numa pílula só:
+    // [ícone + música] [anterior] [tocar/pausar] [próxima]
+    "group/spotify": {
+        "orientation": "horizontal",
+        "modules": ["custom/spotify", "custom/spotify-anterior", "custom/spotify-play", "custom/spotify-proxima"]
+    },
+
+    // Música atual. Clique = abrir/mostrar o Spotify | rolar = próxima/anterior
+    "custom/spotify": {
+        "exec": "~/.config/hypr/scripts/spotify.sh status",
+        "return-type": "json",
+        "format": "\uf1bc  {}",
+        "on-click": "~/.config/hypr/scripts/spotify.sh abrir",
+        "on-scroll-up": "playerctl --player=spotify next",
+        "on-scroll-down": "playerctl --player=spotify previous",
+        "escape": false
+    },
+    "custom/spotify-anterior": {
+        "format": "\uf048",
+        "tooltip-format": "Música anterior",
+        "on-click": "playerctl --player=spotify previous"
+    },
+    "custom/spotify-play": {
+        "format": "\uf04b \uf04c",
+        "tooltip-format": "Tocar/pausar",
+        "on-click": "playerctl --player=spotify play-pause"
+    },
+    "custom/spotify-proxima": {
+        "format": "\uf051",
+        "tooltip-format": "Próxima música",
+        "on-click": "playerctl --player=spotify next"
+    },
+
+    // Música/vídeo tocando agora (Spotify, YouTube no Brave, VLC...)
+    // O Spotify tem o próprio módulo acima, então aqui ele é ignorado.
+    // Só aparece quando tem algo tocando.
+    // Clique = tocar/pausar | botão do meio = anterior | botão direito = próxima
+    // Rolar = próxima/anterior
+    "mpris": {
+        "format": "{player_icon}  {dynamic}",
+        "format-paused": "{status_icon}  <i>{dynamic}</i>",
+        "dynamic-order": ["title", "artist"],
+        "dynamic-separator": " · ",
+        "dynamic-len": 45,
+        "ignored-players": ["spotify"],
+        "player-icons": {
+            "default": "\uf001",
+            "spotify": "\uf1bc",
+            "brave": "\uf144",
+            "chromium": "\uf144"
+        },
+        "status-icons": { "paused": "\uf04c" },
+        "tooltip-format": "{player}: {title}\n{artist} — {album}",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous"
+    },
+
     // Teclado atual: clique para trocar (o mesmo que Super + Espaço)
     "hyprland/language": {
         "format": "󰌌 {}",
@@ -65,7 +123,7 @@
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": "󰝟 mudo",
-        "format-icons": { "headphone": "", "default": ["", "", ""] },
+        "format-icons": { "headphone": "\uf025", "default": ["\uf026", "\uf027", "\uf028"] },
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "on-click-right": "pavucontrol",
         "scroll-step": 5
@@ -80,18 +138,28 @@
 
     // Rede: clique = configurações de rede
     "network": {
-        "format-wifi": " {essid}",
+        "format-wifi": "\uf1eb  {essid}",
         "format-ethernet": "󰈀 cabo",
         "format-disconnected": "󰖪 sem rede",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
         "on-click": "nm-connection-editor"
     },
 
+    // Folha = modo economia de bateria. Verde = ligado. Clique liga/desliga.
+    // "signal": o script avisa a barra na hora (pkill -RTMIN+8 waybar)
+    "custom/economia": {
+        "exec": "~/.config/hypr/scripts/modo-economia.sh status",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "on-click": "~/.config/hypr/scripts/modo-economia.sh"
+    },
+
     "battery": {
         "states": { "warning": 25, "critical": 10 },
         "format": "{icon} {capacity}%",
         "format-charging": "󰂄 {capacity}%",
-        "format-plugged": " {capacity}%",
+        "format-plugged": "\uf1e6  {capacity}%",
         "format-icons": ["󰂎", "󰁺", "󰁼", "󰁾", "󰂀", "󰂂", "󰁹"],
         "tooltip-format": "{timeTo}"
     },
@@ -103,7 +171,7 @@
     },
 
     "custom/energia": {
-        "format": "",
+        "format": "\uf011",
         "tooltip-format": "Energia (Super + Esc)",
         "on-click": "~/.config/hypr/scripts/menu-energia.sh"
     }

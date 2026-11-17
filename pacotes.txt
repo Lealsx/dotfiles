@@ -28,6 +28,7 @@ swappy
 
 # Teclas do notebook, som, rede e bluetooth
 brightnessctl
+power-profiles-daemon
 playerctl
 pavucontrol
 network-manager-applet
@@ -42,6 +43,9 @@ xdg-user-dirs
 
 # Arquivos
 nautilus
+
+# Música (o Spotify oficial)
+spotify-launcher
 
 # Para instalar estes dotfiles
 stow

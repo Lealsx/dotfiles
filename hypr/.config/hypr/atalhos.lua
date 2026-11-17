@@ -29,6 +29,7 @@ atalho(mod .. " + TAB",     exec(apps.janelas),   "Abrir: lista de janelas abert
 atalho(mod .. " + E",       exec(apps.arquivos),  "Abrir: arquivos (Nautilus)")
 atalho(mod .. " + B",       exec(apps.navegador), "Abrir: navegador (Brave)")
 atalho(mod .. " + C",       exec(apps.editor),    "Abrir: VS Code")
+atalho(mod .. " + SHIFT + M", exec(scripts .. "/spotify.sh abrir"), "Abrir: Spotify (ou mostrar a janela)")
 
 -- ---------- Janelas ----------
 atalho(mod .. " + Q",       hl.dsp.window.close(),                          "Janela: fechar")
@@ -66,6 +67,7 @@ atalho(mod .. " + L",         exec(apps.bloqueio),                      "Sistema
 atalho(mod .. " + ESCAPE",    exec(scripts .. "/menu-energia.sh"),      "Sistema: menu de energia (sair, reiniciar, desligar)")
 atalho(mod .. " + SHIFT + V", exec(scripts .. "/historico-copia.sh"),   "Sistema: histórico do copiar/colar")
 atalho(mod .. " + N",         exec("makoctl dismiss --all"),            "Sistema: limpar notificações")
+atalho(mod .. " + SHIFT + B", exec(scripts .. "/modo-economia.sh"),     "Sistema: modo economia de bateria (liga/desliga)")
 
 -- ---------- Captura de tela ----------
 atalho("Print",               exec(scripts .. "/print.sh area"), "Print: selecionar área e editar")

@@ -32,10 +32,11 @@ hypr/.config/hypr/
 ├── entrada.lua      → teclado, touchpad, gestos
 ├── atalhos.lua      → atalhos de teclado
 ├── regras.lua       → regras de janelas
+├── economia.lua     → modo economia de bateria
 ├── hyprlock.conf    → tela de bloqueio
 ├── hypridle.conf    → bloqueio/suspensão por inatividade
 ├── hyprpaper.conf   → papel de parede
-└── scripts/         → menu de energia, prints, histórico do copiar
+└── scripts/         → menu de energia, prints, histórico do copiar, Spotify, modo economia
 ```
 
 ## Instalação
@@ -65,6 +66,7 @@ Depois é só sair da sessão e escolher **Hyprland (uwsm-managed)** na tela de 
 | `Super + E` | Arquivos |
 | `Super + B` | Navegador |
 | `Super + C` | VS Code |
+| `Super + Shift + M` | Spotify (abre ou mostra a janela) |
 
 ### Janelas
 | Atalho | Ação |
@@ -97,6 +99,20 @@ Depois é só sair da sessão e escolher **Hyprland (uwsm-managed)** na tela de 
 | `Super + Esc` | Menu de energia (bloquear, suspender, sair, reiniciar, desligar) |
 | `Super + Shift + V` | Histórico do copiar/colar |
 | `Super + N` | Limpar notificações |
+| `Super + Shift + B` | Modo economia de bateria (liga/desliga) |
+
+### Spotify na barra
+Ao lado do relógio fica o Spotify: clique no nome da música para abrir/mostrar o app,
+use os botões ⏮ ⏯ ⏭ ou role o mouse em cima para trocar de música.
+Outros players (YouTube no navegador, VLC...) aparecem num módulo separado ao lado.
+
+### Modo economia de bateria
+Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clicando na folha 🍃 da barra
+(verde = ligado). Quando ligado:
+- perfil de energia `power-saver` (via `power-profiles-daemon`)
+- tela do notebook a 60 Hz em vez de 144 Hz
+- sem desfoque, sombras, transparência e animações
+- Bluetooth desligado
 | `Print` ou `Super + Shift + P` | Print de uma área (abre o editor) |
 | `Shift + Print` | Print da tela inteira |
 
