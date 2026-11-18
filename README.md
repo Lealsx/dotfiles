@@ -15,6 +15,7 @@ Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacion
 | `mako/` | [mako](https://github.com/emersion/mako) | Notificações |
 | `kitty/` | [kitty](https://sw.kovidgoyal.net/kitty/) | Terminal |
 | `swappy/` | [swappy](https://github.com/jtheoof/swappy) | Editor de capturas de tela |
+| `sistema/sddm/` | [SDDM](https://github.com/sddm/sddm) + [Catppuccin](https://github.com/catppuccin/sddm) | Tela de login (fora do stow, ver abaixo) |
 
 Cada pasta segue o formato do [GNU Stow](https://www.gnu.org/software/stow/):
 `hypr/.config/hypr/...` vira `~/.config/hypr/...` através de um link simbólico.
@@ -48,6 +49,16 @@ cd ~/dotfiles
 ```
 
 O `instalar.sh` instala os pacotes de `pacotes.txt` e cria os links com o `stow`.
+
+### Tela de login (opcional)
+A tela de login usa o [SDDM](https://github.com/sddm/sddm) com o tema
+[Catppuccin Mocha](https://github.com/catppuccin/sddm) azul e a fonte JetBrainsMono.
+Como esses arquivos ficam em `/etc` e `/usr/share` (fora da pasta pessoal),
+eles não são ligados pelo stow — um script próprio copia com `sudo`:
+
+```bash
+./sistema/sddm/instalar.sh   # precisa do yay (o tema vem do AUR)
+```
 Depois é só sair da sessão e escolher **Hyprland (uwsm-managed)** na tela de login.
 
 ## Atalhos
