@@ -137,6 +137,19 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 | ç | `AltGr + ,` |
 | `'` ou `"` sozinho | a tecla + Espaço |
 
+## Animações
+
+- **Janelas** abrem crescendo com um "pulinho" (mola), fecham encolhendo e deslizam ao mudar de lugar
+- **Janelas gelatinosas** (*wobble*, novo no Hyprland 0.57): balançam ao arrastar ou redimensionar
+- **Borda da janela ativa**: o degradê azul → lilás gira devagar (uma volta a cada 10 s)
+- **Menu (Rofi)** abre crescendo; **notificações** deslizam pela direita
+- **Áreas de trabalho** deslizam para o lado; o rascunho (`Super + S`) desce de cima
+- **Barra**: a área ativa "cresce", os módulos acendem ao passar o mouse,
+  a bateria pisca em vermelho quando está crítica e "respira" ao carregar
+
+Tudo fica em `hypr/.config/hypr/aparencia.lua` e `waybar/.config/waybar/style.css`.
+O modo economia (`Super + Shift + B`) desliga todas as animações.
+
 ## Dicas
 
 - Checar erros na config do Hyprland: `Hyprland --verify-config`
