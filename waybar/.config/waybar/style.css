@@ -36,7 +36,14 @@ window#waybar {
 /* Quando não há janela aberta, esconde a pílula do título */
 window#waybar.empty #window { background: transparent; }
 
-#custom-menu    { color: @azul; font-size: 16px; padding: 0 14px; }
+/* Botões das pontas (Arch e desligar): mesma largura, ícone centralizado.
+   Os ícones da Nerd Font têm um espaço "fantasma" à esquerda, por isso o
+   padding da esquerda é menor que o da direita (compensa e centraliza). */
+#custom-menu, #custom-energia {
+    min-width: 22px;
+    padding: 0 15px 0 11px;
+}
+#custom-menu    { color: @azul; font-size: 16px; }
 
 /* Ícone do Arch: troca de cor sem parar (azul → lilás → rosa) com brilho
    pulsando; ao passar o mouse, cresce */
@@ -49,10 +56,13 @@ window#waybar.empty #window { background: transparent; }
 #custom-menu {
     animation: arco-iris 6s ease-in-out infinite;
 }
+/* Ao passar o mouse: o brilho fica forte e o fundo clareia
+   (sem mudar o tamanho, para não empurrar o resto da barra) */
 #custom-menu:hover {
-    font-size: 20px;
+    background: @fundo2;
+    text-shadow: 0 0 12px @lilas;
 }
-#custom-energia { color: @vermelho; padding: 0 14px; }
+#custom-energia { color: @vermelho; }
 
 #workspaces { padding: 0 4px; }
 #workspaces button {
