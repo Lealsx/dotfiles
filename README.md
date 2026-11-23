@@ -35,6 +35,7 @@ hypr/.config/hypr/
 ├── atalhos.lua      → atalhos de teclado
 ├── regras.lua       → regras de janelas
 ├── economia.lua     → modo economia de bateria
+├── efeitos.lua      → aura vermelha e pulso de sangue ao abrir apps
 ├── hyprlock.conf    → tela de bloqueio
 ├── hypridle.conf    → bloqueio/suspensão por inatividade
 └── scripts/         → menu de energia, prints, histórico do copiar, Spotify, modo economia
@@ -188,7 +189,10 @@ sudo papirus-folders -C blue --theme Papirus-Dark
 ## Animações
 
 Estilo "Muzan": dramático e sinistro, sem molas elásticas.
-- **Abrir janela**: surge pequena e cresce, desacelerando devagar ("emergindo das sombras")
+- **Abrir janela**: surge como uma linha fina e se abre na vertical, como um **olho abrindo**,
+  e a borda dá um **pulso de sangue** (acende em brasa e esfria para o carmesim) — `efeitos.lua`
+- **Aura vermelha**: atrás das janelas transparentes o desfoque vira uma aurora carmesim/brasa
+  que se move devagar (variante de desfoque "aurora", nova na 0.57) — `efeitos.lua`
 - **Fechar janela**: achata até virar uma linha, como uma pálpebra fechando
 - **Mover janela**: desliza pesada, sem quicar; ao arrastar, balança de leve (*wobble*, novo na 0.57)
 - **Borda da janela ativa**: degradê carmesim → brasa → vermelho-escuro girando (uma volta a cada 6 s),

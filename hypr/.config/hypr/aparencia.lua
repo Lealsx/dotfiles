@@ -77,12 +77,12 @@ hl.curve("quick",        { type = "bezier", points = { {0.15, 0},    {0.1, 1}   
 hl.curve("pesada",       { type = "spring", mass = 1.4, stiffness = 180, damping = 30 }) -- mola pesada, sem quicar
 
 -- Janelas (tema Muzan: dramático e sinistro, nada de "pulinho"):
---   abrir  → surge pequena e cresce, desacelerando devagar ("emergindo das sombras")
+--   abrir  → surge como uma linha fina e se abre na vertical, como um OLHO abrindo ("gnomed")
 --   fechar → achata até virar uma linha, como uma pálpebra fechando ("gnomed")
 --   mover  → desliza pesada, sem quicar
 hl.animation({ leaf = "global",      enabled = true, speed = 10,  bezier = "default" })
 hl.animation({ leaf = "windows",     enabled = true, speed = 5,   spring = "pesada" })
-hl.animation({ leaf = "windowsIn",   enabled = true, speed = 6,   bezier = "sinistra", style = "popin 40%" })
+hl.animation({ leaf = "windowsIn",   enabled = true, speed = 6,   bezier = "sinistra", style = "gnomed" })
 hl.animation({ leaf = "windowsOut",  enabled = true, speed = 3,   bezier = "corte",    style = "gnomed" })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 5,   spring = "pesada" })
 hl.animation({ leaf = "fade",        enabled = true, speed = 4,   bezier = "sinistra" })
