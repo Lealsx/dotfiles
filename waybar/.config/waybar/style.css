@@ -58,6 +58,7 @@ window#waybar.empty #window { background: transparent; }
 #workspaces button {
     color: @apagado;
     padding: 0 8px;
+    margin: 4px 2px;      /* respiro em cima/embaixo e espaço entre um botão e outro */
     border-radius: 8px;
     background: transparent;
 }
