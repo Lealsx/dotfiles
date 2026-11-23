@@ -13,7 +13,9 @@
 @define-color vermelho  #f38ba8;
 
 * {
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    /* "Propo": versão da fonte em que cada ícone ocupa exatamente o próprio
+       tamanho (na versão normal os ícones "vazam" para o lado e descentralizam) */
+    font-family: "JetBrainsMono Nerd Font Propo", sans-serif;
     font-size: 13px;
     border: none;
     min-height: 0;
@@ -36,12 +38,10 @@ window#waybar {
 /* Quando não há janela aberta, esconde a pílula do título */
 window#waybar.empty #window { background: transparent; }
 
-/* Botões das pontas (Arch e desligar): mesma largura, ícone centralizado.
-   Os ícones da Nerd Font têm um espaço "fantasma" à esquerda, por isso o
-   padding da esquerda é menor que o da direita (compensa e centraliza). */
-#custom-menu, #custom-energia {
-    min-width: 22px;
-    padding: 0 15px 0 11px;
+/* Pílulas só de ícone (Arch, economia, desligar): todas com a mesma largura */
+#custom-menu, #custom-economia, #custom-energia {
+    min-width: 20px;
+    padding: 0 14px;
 }
 #custom-menu    { color: @azul; font-size: 16px; }
 

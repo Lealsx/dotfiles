@@ -33,7 +33,7 @@ for player in $(playerctl -l 2>/dev/null); do
     esac
     classe=$([ "$estado" = "Playing" ] && echo tocando || echo pausado)
 
-    printf '{"text": "%s  %s", "tooltip": "%s", "class": "%s"}\n' \
+    printf '{"text": "%s %s", "tooltip": "%s", "class": "%s"}\n' \
         "$icone" "$(escapar "$texto")" "$(escapar "${player%%.*}: $titulo")" "$classe"
     exit 0
 done

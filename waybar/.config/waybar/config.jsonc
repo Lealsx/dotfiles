@@ -31,8 +31,8 @@
     // "window-rewrite": qual ícone usar para cada app (pela "class" da janela,
     // que dá para ver com: hyprctl clients). Os ícones são da fonte Nerd Font.
     "hyprland/workspaces": {
-        "format": "{id}  {windows}",
-        "format-window-separator": "  ",
+        "format": "{id} {windows}",
+        "format-window-separator": " ",
         "window-rewrite-default": "\uf059",
         "window-rewrite": {
             "class<kitty>": "\uf120",
@@ -87,7 +87,7 @@
     "custom/spotify": {
         "exec": "~/.config/hypr/scripts/spotify.sh status",
         "return-type": "json",
-        "format": "\uf1bc  {}",
+        "format": "\uf1bc {}",
         "on-click": "~/.config/hypr/scripts/spotify.sh abrir",
         "on-scroll-up": "playerctl --player=spotify next",
         "on-scroll-down": "playerctl --player=spotify previous",
@@ -139,7 +139,7 @@
 
     // Volume: clique = mudo | botão direito = controle de som | rolar = volume
     "pulseaudio": {
-        "format": "{icon}  {volume}%",
+        "format": "{icon} {volume}%",
         "format-muted": "󰝟 mudo",
         "format-icons": { "headphone": "\uf025", "default": ["\uf026", "\uf027", "\uf028"] },
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
@@ -148,7 +148,7 @@
     },
 
     "backlight": {
-        "format": "{icon}  {percent}%",
+        "format": "{icon} {percent}%",
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set 5%+",
         "on-scroll-down": "brightnessctl set 5%-"
@@ -156,7 +156,7 @@
 
     // Rede: clique = configurações de rede
     "network": {
-        "format-wifi": "\uf1eb  {essid}",
+        "format-wifi": "\uf1eb {essid}",
         "format-ethernet": "󰈀 cabo",
         "format-disconnected": "󰖪 sem rede",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
@@ -177,7 +177,7 @@
         "states": { "warning": 25, "critical": 10 },
         "format": "{icon} {capacity}%",
         "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "\uf1e6  {capacity}%",
+        "format-plugged": "\uf1e6 {capacity}%",
         "format-icons": ["󰂎", "󰁺", "󰁼", "󰁾", "󰂀", "󰂂", "󰁹"],
         "tooltip-format": "{timeTo}"
     },
