@@ -1,9 +1,9 @@
 -- =============================================================
---  aparencia.lua — visual (tema escuro estilo Catppuccin Mocha)
+--  aparencia.lua — visual (tema Miles Morales: preto, vermelho e ciano)
 -- =============================================================
---  Cores Catppuccin Mocha usadas aqui:
---    azul    #89b4fa   lilás   #cba6f7   fundo  #1e1e2e
---    cinza   #45475a   (borda das janelas sem foco)
+--  Paleta "Miles Morales" (Aranhaverso):
+--    vermelho #ff2a4f   ciano (glitch) #00d8ff   preto #0d0d12
+--    cinza    #2a2a35   (borda das janelas sem foco)
 -- =============================================================
 
 hl.config({
@@ -13,9 +13,9 @@ hl.config({
         border_size = 2,
 
         col = {
-            -- Borda da janela com foco: degradê azul → lilás
-            active_border   = { colors = { "rgba(89b4faee)", "rgba(cba6f7ee)" }, angle = 45 },
-            inactive_border = "rgba(45475aaa)",
+            -- Borda da janela com foco: degradê vermelho → ciano (o "glitch" do Aranhaverso)
+            active_border   = { colors = { "rgba(ff2a4fee)", "rgba(00d8ffee)" }, angle = 45 },
+            inactive_border = "rgba(2a2a35aa)",
         },
 
         resize_on_border = true,      -- redimensionar arrastando a borda
@@ -30,9 +30,10 @@ hl.config({
 
         shadow = {
             enabled      = true,
-            range        = 8,
-            render_power = 3,
-            color        = 0xee11111b,
+            range          = 14,
+            render_power   = 3,
+            color          = 0x66ff2a4f, -- janela com foco: brilho vermelho em volta
+            color_inactive = 0xaa000000, -- outras janelas: sombra preta comum
         },
 
         -- Desfoque atrás de janelas transparentes (gasta um pouco mais de bateria;
@@ -84,7 +85,7 @@ hl.animation({ leaf = "windowsOut",  enabled = true, speed = 2,   bezier = "ease
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 5,   spring = "bouncy" })
 hl.animation({ leaf = "fade",        enabled = true, speed = 3,   bezier = "quick" })
 
--- Borda da janela ativa: a cor muda suave e o degradê azul → lilás GIRA devagar
+-- Borda da janela ativa: a cor muda suave e o degradê vermelho → ciano GIRA devagar
 -- (borderangle + "loop" = uma volta completa a cada 4 s; speed 40 = 40 décimos de segundo)
 hl.animation({ leaf = "border",      enabled = true, speed = 5,   bezier = "easeOutQuint" })
 hl.animation({ leaf = "borderangle", enabled = true, speed = 40,  bezier = "linear", style = "loop" })

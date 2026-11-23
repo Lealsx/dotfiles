@@ -15,11 +15,11 @@ configuration {
 }
 
 * {
-    fundo:   #1e1e2ef2;
-    fundo2:  #313244;
-    texto:   #cdd6f4;
-    apagado: #6c7086;
-    azul:    #89b4fa;
+    fundo:   #0d0d12f2;
+    fundo2:  #1f1f29;
+    texto:   #f4f4f6;
+    apagado: #6e6e7e;
+    destaque: #ff2a4f;
 
     background-color: transparent;
     text-color: @texto;
@@ -29,7 +29,7 @@ window {
     width: 600px;
     background-color: @fundo;
     border: 2px;
-    border-color: @azul;
+    border-color: @destaque;
     border-radius: 14px;
 }
 
@@ -42,7 +42,7 @@ inputbar {
     spacing: 10px;
     children: [ prompt, entry ];
 }
-prompt   { text-color: @azul; }
+prompt   { text-color: @destaque; }
 entry    { placeholder: "Buscar..."; placeholder-color: @apagado; }
 
 listview { lines: 8; columns: 1; spacing: 4px; scrollbar: false; }
@@ -54,7 +54,7 @@ element alternate.active, element normal.urgent, element alternate.urgent {
     background-color: transparent;
     text-color: @texto;
 }
-element selected.active, element selected.urgent { background-color: @azul; text-color: #1e1e2e; }
-element selected.normal { background-color: @azul; text-color: #1e1e2e; }
+element selected.active, element selected.urgent { background-color: @destaque; text-color: #ffffff; }
+element selected.normal { background-color: @destaque; text-color: #ffffff; }
 element-icon { size: 24px; }
 element-text { text-color: inherit; vertical-align: 0.5; }

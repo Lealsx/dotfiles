@@ -13,11 +13,11 @@ border-radius=12
 max-icon-size=48
 default-timeout=6000
 
-background-color=#1e1e2ef2
-text-color=#cdd6f4
-border-color=#89b4fa
-progress-color=over #313244
+background-color=#0d0d12f2
+text-color=#f4f4f6
+border-color=#ff2a4f
+progress-color=over #1f1f29
 
 [urgency=high]
-border-color=#f38ba8
+border-color=#00d8ff
 default-timeout=0

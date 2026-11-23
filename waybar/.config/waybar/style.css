@@ -1,13 +1,13 @@
 /* =============================================================
-   Waybar — visual (Catppuccin Mocha)
+   Waybar — visual (tema Miles Morales: preto, vermelho e ciano)
    ============================================================= */
 
-@define-color fundo     #1e1e2e;
-@define-color fundo2    #313244;
-@define-color texto     #cdd6f4;
-@define-color apagado   #6c7086;
-@define-color azul      #89b4fa;
-@define-color lilas     #cba6f7;
+@define-color fundo     #0d0d12;
+@define-color fundo2    #1f1f29;
+@define-color texto     #f4f4f6;
+@define-color apagado   #6e6e7e;
+@define-color destaque  #ff2a4f;   /* vermelho Miles */
+@define-color destaque2 #00d8ff;   /* ciano "glitch" */
 @define-color verde     #a6e3a1;
 @define-color amarelo   #f9e2af;
 @define-color vermelho  #f38ba8;
@@ -43,15 +43,15 @@ window#waybar.empty #window { background: transparent; }
     min-width: 20px;
     padding: 0 14px;
 }
-#custom-menu    { color: @azul; font-size: 16px; }
+#custom-menu    { color: @destaque; font-size: 16px; }
 
-/* Ícone do Arch: troca de cor sem parar (azul → lilás → rosa) com brilho
+/* Ícone do Arch: troca de cor sem parar (vermelho → ciano → branco) com brilho
    pulsando; ao passar o mouse, cresce */
 @keyframes arco-iris {
-    0%   { color: @azul;  text-shadow: 0 0 2px alpha(@azul, 0.4); }
-    33%  { color: @lilas; text-shadow: 0 0 8px alpha(@lilas, 0.9); }
-    66%  { color: #f5c2e7; text-shadow: 0 0 2px alpha(#f5c2e7, 0.4); }
-    100% { color: @azul;  text-shadow: 0 0 8px alpha(@azul, 0.9); }
+    0%   { color: @destaque;  text-shadow: 0 0 2px alpha(@destaque, 0.4); }
+    33%  { color: @destaque2; text-shadow: 0 0 8px alpha(@destaque2, 0.9); }
+    66%  { color: @texto; text-shadow: 0 0 2px alpha(@texto, 0.4); }
+    100% { color: @destaque;  text-shadow: 0 0 8px alpha(@destaque, 0.9); }
 }
 #custom-menu {
     animation: arco-iris 6s ease-in-out infinite;
@@ -60,7 +60,7 @@ window#waybar.empty #window { background: transparent; }
    (sem mudar o tamanho, para não empurrar o resto da barra) */
 #custom-menu:hover {
     background: @fundo2;
-    text-shadow: 0 0 12px @lilas;
+    text-shadow: 0 0 12px @destaque2;
 }
 #custom-energia { color: @vermelho; }
 
@@ -72,11 +72,11 @@ window#waybar.empty #window { background: transparent; }
     border-radius: 8px;
     background: transparent;
 }
-#workspaces button.active  { color: @fundo; background: @azul; }
+#workspaces button.active  { color: @fundo; background: @destaque; }
 #workspaces button.urgent  { color: @fundo; background: @vermelho; }
 #workspaces button:hover   { background: @fundo2; color: @texto; }
 
-#clock      { color: @lilas; font-weight: bold; }
+#clock      { color: @destaque2; font-weight: bold; }
 
 /* Outros players (YouTube etc.): verde tocando, apagado pausado */
 #custom-player         { color: @verde; }
@@ -98,8 +98,8 @@ window#waybar.empty #window { background: transparent; }
 #custom-spotify-anterior:hover,
 #custom-spotify-play:hover,
 #custom-spotify-proxima:hover { color: @spotify; }
-#language   { color: @azul; }
-#pulseaudio { color: @azul; }
+#language   { color: @destaque; }
+#pulseaudio { color: @destaque; }
 #pulseaudio.muted { color: @apagado; }
 #backlight  { color: @amarelo; }
 #network    { color: @verde; }
@@ -116,7 +116,7 @@ window#waybar.empty #window { background: transparent; }
 
 tooltip {
     background: @fundo;
-    border: 1px solid @azul;
+    border: 1px solid @destaque;
     border-radius: 10px;
 }
 tooltip label { color: @texto; }
@@ -135,8 +135,8 @@ tooltip label { color: @texto; }
 }
 #workspaces button.active {
     min-width: 38px;
-    /* degradê azul → lilás → azul, 3x mais largo que o botão... */
-    background-image: linear-gradient(90deg, @azul, @lilas, @azul, @lilas);
+    /* degradê vermelho → ciano → vermelho, 3x mais largo que o botão... */
+    background-image: linear-gradient(90deg, @destaque, @destaque2, @destaque, @destaque2);
     background-size: 300% 100%;
     /* ...e deslizando de um lado para o outro (igual à borda das janelas) */
     animation: fluir 4s linear infinite;
@@ -147,8 +147,8 @@ tooltip label { color: @texto; }
 }
 /* Área visível no OUTRO monitor (sem foco): destaque leve, sem crescer */
 #workspaces button.visible:not(.active) {
-    color: @azul;
-    background: alpha(@azul, 0.15);
+    color: @destaque;
+    background: alpha(@destaque, 0.15);
 }
 
 /* Todos os módulos: ao passar o mouse, clareiam e o texto acende */
