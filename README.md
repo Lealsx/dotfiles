@@ -35,7 +35,7 @@ hypr/.config/hypr/
 ├── atalhos.lua      → atalhos de teclado
 ├── regras.lua       → regras de janelas
 ├── economia.lua     → modo economia de bateria
-├── efeitos.lua      → aura vermelha e pulso de sangue ao abrir apps
+├── efeitos.lua      → pulso de sangue ao abrir apps e pausa inteligente do vídeo
 ├── hyprlock.conf    → tela de bloqueio
 ├── hypridle.conf    → bloqueio/suspensão por inatividade
 └── scripts/         → menu de energia, prints, histórico do copiar, Spotify, modo economia
@@ -155,21 +155,25 @@ As cores ficam em `aparencia.lua` (bordas e sombra), `waybar/style.css` (`@defin
 
 ## Papel de parede
 
-O `hypr/scripts/wallpaper.sh` escolhe sozinho:
-- **vídeo em loop** com o [mpvpaper](https://github.com/GhostNaN/mpvpaper) (pausa quando as janelas cobrem a tela
-  e usa a placa de vídeo para decodificar);
-- **imagem parada** com o hyprpaper no modo economia (um quadro tirado do próprio vídeo);
-- a imagem padrão do Hyprland se não houver vídeo.
+Coloque o arquivo em `~/Imagens/wallpapers/` (fica **fora do repositório**, personagens
+têm direitos autorais) com o nome:
 
-O vídeo fica **fora do repositório** (personagens têm direitos autorais), em
-`~/Imagens/wallpapers/wallpaper.mp4`. Para usar outro, troque o arquivo e apague o
-`wallpaper.png` gerado. Vídeos 4K ficam muito mais leves convertidos para 1080p/30 fps sem som:
+| Arquivo | Resultado |
+|---|---|
+| `wallpaper.jpg` / `.png` / `.webp` | **imagem parada** com o hyprpaper (leve; é o padrão) |
+| `wallpaper.mp4` | **vídeo em loop** com o [mpvpaper](https://github.com/GhostNaN/mpvpaper) |
+
+Se existirem os dois, a imagem ganha. O `hypr/scripts/wallpaper.sh` escolhe sozinho;
+rode ele de novo depois de trocar o arquivo.
+
+**Sobre o vídeo:** na placa Intel UHD deste notebook, cada quadro do vídeo obriga o
+Hyprland a redesenhar as duas telas — a placa ia a 100% e travava. Por isso o vídeo só
+toca quando alguma tela está com a área de trabalho **vazia** (`efeitos.lua` +
+`wallpaper-pausa.sh`, pelo socket do mpv), vira imagem no modo economia, e a imagem
+parada é o padrão. Converta vídeos 4K antes:
 
 ```bash
 ffmpeg -i video.mp4 -vf "scale=1920:1080,fps=30" -c:v libx264 -crf 22 -an ~/Imagens/wallpapers/wallpaper.mp4
-```
-
-```bash
 yay -S mpvpaper
 ```
 
@@ -191,8 +195,8 @@ sudo papirus-folders -C blue --theme Papirus-Dark
 Estilo "Muzan": dramático e sinistro, sem molas elásticas.
 - **Abrir janela**: surge como uma linha fina e se abre na vertical, como um **olho abrindo**,
   e a borda dá um **pulso de sangue** (acende em brasa e esfria para o carmesim) — `efeitos.lua`
-- **Aura vermelha**: atrás das janelas transparentes o desfoque vira uma aurora carmesim/brasa
-  que se move devagar (variante de desfoque "aurora", nova na 0.57) — `efeitos.lua`
+- ~~Aura vermelha~~ (variante de desfoque "aurora"): **desligada** — deixava a placa de vídeo
+  em 97% e travava o computador; a tabela das variantes ficou comentada em `efeitos.lua`
 - **Fechar janela**: achata até virar uma linha, como uma pálpebra fechando
 - **Mover janela**: desliza pesada, sem quicar; ao arrastar, balança de leve (*wobble*, novo na 0.57)
 - **Borda da janela ativa**: degradê carmesim → brasa → vermelho-escuro girando (uma volta a cada 6 s),
