@@ -141,7 +141,7 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 
 - **Janelas** abrem crescendo com um "pulinho" (mola), fecham encolhendo e deslizam ao mudar de lugar
 - **Janelas gelatinosas** (*wobble*, novo no Hyprland 0.57): balançam ao arrastar ou redimensionar
-- **Borda da janela ativa**: o degradê azul → lilás gira devagar (uma volta a cada 10 s)
+- **Borda da janela ativa**: o degradê azul → lilás gira (uma volta a cada 4 s)
 - **Menu (Rofi)** abre crescendo; **notificações** deslizam pela direita
 - **Áreas de trabalho** deslizam para o lado; o rascunho (`Super + S`) desce de cima
 - **Barra**: a área ativa "cresce", os módulos acendem ao passar o mouse,

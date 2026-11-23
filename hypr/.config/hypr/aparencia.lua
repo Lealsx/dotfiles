@@ -85,9 +85,9 @@ hl.animation({ leaf = "windowsMove", enabled = true, speed = 5,   spring = "boun
 hl.animation({ leaf = "fade",        enabled = true, speed = 3,   bezier = "quick" })
 
 -- Borda da janela ativa: a cor muda suave e o degradê azul → lilás GIRA devagar
--- (borderangle + "loop" = uma volta completa a cada 10 s)
+-- (borderangle + "loop" = uma volta completa a cada 4 s; speed 40 = 40 décimos de segundo)
 hl.animation({ leaf = "border",      enabled = true, speed = 5,   bezier = "easeOutQuint" })
-hl.animation({ leaf = "borderangle", enabled = true, speed = 100, bezier = "linear", style = "loop" })
+hl.animation({ leaf = "borderangle", enabled = true, speed = 40,  bezier = "linear", style = "loop" })
 
 -- Menus, barra e notificações ("layers")
 hl.animation({ leaf = "layers",      enabled = true, speed = 4,   bezier = "overshot" })
