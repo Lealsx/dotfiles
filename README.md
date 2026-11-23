@@ -176,13 +176,13 @@ yay -S mpvpaper
 ## Ícones e cursor
 
 - **Ícones**: [Papirus-Dark](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) com pastas azuis
-- **Cursor**: [Catppuccin Mocha azul](https://github.com/catppuccin/cursors) (com versão *hyprcursor*, nativa do Hyprland)
+- **Cursor**: [Bibata Modern Classic](https://github.com/ful1e5/Bibata_Cursor) (preto com borda branca)
 
 O ícone e o cursor são aplicados ao iniciar o Hyprland (`inicio.lua` e `ambiente.lua`).
 O cursor e a cor das pastas vêm do AUR, então instale à parte:
 
 ```bash
-yay -S catppuccin-cursors-mocha papirus-folders
+yay -S bibata-cursor-theme-bin papirus-folders
 sudo papirus-folders -C blue --theme Papirus-Dark
 ```
 

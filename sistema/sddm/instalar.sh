@@ -27,7 +27,7 @@ IMAGEM="$HOME/Imagens/wallpapers/wallpaper.png"
 
 echo "==> Instalando o SDDM e o que o tema precisa (vídeo e teclado virtual)..."
 sudo pacman -S --needed sddm qt6-svg qt6-multimedia qt6-virtualkeyboard
-yay -S --needed catppuccin-cursors-mocha
+yay -S --needed bibata-cursor-theme-bin
 
 echo "==> Baixando o SilentSDDM (versão $VERSAO)..."
 tmp=$(mktemp -d)

@@ -4,12 +4,10 @@
 --  São "avisos" para os programas sobre como devem rodar.
 -- =============================================================
 
--- Cursor do mouse: Catppuccin Mocha azul, tamanho 24
---   HYPRCURSOR → formato nativo do Hyprland (mais nítido)
---   XCURSOR    → formato clássico, usado por apps X11/XWayland e GTK
-hl.env("HYPRCURSOR_THEME", "catppuccin-mocha-blue-cursors")
-hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("XCURSOR_THEME", "catppuccin-mocha-blue-cursors")
+-- Cursor do mouse: Bibata Modern Classic (preto com borda branca), tamanho 24
+--   O Bibata só vem no formato clássico (XCURSOR), que o Hyprland também usa
+--   quando não há um tema no formato nativo dele (HYPRCURSOR).
+hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
 hl.env("XCURSOR_SIZE", "24")
 
 -- Apps Qt (ex.: IntelliJ partes, pavucontrol-qt) rodando nativo no Wayland;
