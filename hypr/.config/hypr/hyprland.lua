@@ -12,7 +12,7 @@
 --    atalhos.lua    → todos os atalhos de teclado
 --    regras.lua     → regras para janelas específicas
 --    economia.lua   → modo economia de bateria (Super + Shift + B)
---    efeitos.lua    → aura vermelha e pulso de sangue ao abrir apps
+--    efeitos.lua    → pulso de sangue ao abrir apps e pausa inteligente do vídeo
 --
 --  Documentação oficial: https://wiki.hypr.land/configuring/
 --  Para checar erros sem reiniciar:  Hyprland --verify-config
@@ -62,5 +62,5 @@ require("regras")
 -- Modo economia: desliga os efeitos por último, para valer por cima do aparencia.lua
 aplicar_economia()
 
--- Efeitos do tema Muzan (aura vermelha e pulso de sangue ao abrir apps)
+-- Efeitos do tema Muzan (pulso de sangue ao abrir apps, pausa inteligente do vídeo)
 require("efeitos")
