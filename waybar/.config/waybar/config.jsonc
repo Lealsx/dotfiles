@@ -26,9 +26,31 @@
         "on-click": "rofi -show drun"
     },
 
-    // Áreas de trabalho: clique para ir, rolar para passar
+    // Áreas de trabalho: número + ícone de cada app aberto nela.
+    // Clique para ir, rolar para passar.
+    // "window-rewrite": qual ícone usar para cada app (pela "class" da janela,
+    // que dá para ver com: hyprctl clients). Os ícones são da fonte Nerd Font.
     "hyprland/workspaces": {
-        "format": "{id}",
+        "format": "{id} {windows}",
+        "format-window-separator": " ",
+        "window-rewrite-default": "\uf059",
+        "window-rewrite": {
+            "class<kitty>": "\uf120",
+            "class<[Cc]ode.*>": "\ue70c",
+            "class<jetbrains-.*>": "\ue7b5",
+            "class<.*brave.*>": "\uf268",
+            "class<[Ss]potify>": "\uf1bc",
+            "class<org.gnome.Nautilus>": "\uf07b",
+            "class<org.gnome.Papers>": "\uf1c1",
+            "class<org.gnome.Loupe>": "\uf03e",
+            "class<org.gnome.Showtime>": "\uf03d",
+            "class<org.gnome.Calculator>": "\uf1ec",
+            "class<org.pulseaudio.pavucontrol>": "\uf028",
+            "class<blueman-manager>": "\uf293",
+            "class<nm-connection-editor>": "\uf1eb",
+            "class<org.gnome.TextEditor>": "\uf044",
+            "class<org.gnome.SystemMonitor>": "\uf080"
+        },
         "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
         "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'"
     },

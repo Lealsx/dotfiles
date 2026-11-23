@@ -37,6 +37,21 @@ window#waybar {
 window#waybar.empty #window { background: transparent; }
 
 #custom-menu    { color: @azul; font-size: 16px; padding: 0 14px; }
+
+/* Ícone do Arch: troca de cor sem parar (azul → lilás → rosa) com brilho
+   pulsando; ao passar o mouse, cresce */
+@keyframes arco-iris {
+    0%   { color: @azul;  text-shadow: 0 0 2px alpha(@azul, 0.4); }
+    33%  { color: @lilas; text-shadow: 0 0 8px alpha(@lilas, 0.9); }
+    66%  { color: #f5c2e7; text-shadow: 0 0 2px alpha(#f5c2e7, 0.4); }
+    100% { color: @azul;  text-shadow: 0 0 8px alpha(@azul, 0.9); }
+}
+#custom-menu {
+    animation: arco-iris 6s ease-in-out infinite;
+}
+#custom-menu:hover {
+    font-size: 20px;
+}
 #custom-energia { color: @vermelho; padding: 0 14px; }
 
 #workspaces { padding: 0 4px; }
@@ -131,13 +146,12 @@ tooltip label { color: @texto; }
 #custom-spotify-anterior, #custom-spotify-play, #custom-spotify-proxima {
     transition: all 0.25s ease;
 }
-#custom-menu:hover, #clock:hover, #mpris:hover, #language:hover,
+#clock:hover, #mpris:hover, #language:hover,
 #pulseaudio:hover, #backlight:hover, #network:hover,
 #custom-economia:hover, #battery:hover {
     background: @fundo2;
     color: @texto;
 }
-#custom-menu:hover    { color: @lilas; }
 #custom-energia:hover { background: @vermelho; color: @fundo; }
 
 /* Bateria crítica (10% ou menos, fora da tomada): pisca em vermelho */
