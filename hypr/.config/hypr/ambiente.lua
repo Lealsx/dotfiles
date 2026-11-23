@@ -4,9 +4,13 @@
 --  São "avisos" para os programas sobre como devem rodar.
 -- =============================================================
 
--- Tamanho do cursor do mouse
-hl.env("XCURSOR_SIZE", "24")
+-- Cursor do mouse: Catppuccin Mocha azul, tamanho 24
+--   HYPRCURSOR → formato nativo do Hyprland (mais nítido)
+--   XCURSOR    → formato clássico, usado por apps X11/XWayland e GTK
+hl.env("HYPRCURSOR_THEME", "catppuccin-mocha-blue-cursors")
 hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "catppuccin-mocha-blue-cursors")
+hl.env("XCURSOR_SIZE", "24")
 
 -- Apps Qt (ex.: IntelliJ partes, pavucontrol-qt) rodando nativo no Wayland;
 -- se não der, cai para o modo X11 (xcb).

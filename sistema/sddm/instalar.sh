@@ -19,7 +19,7 @@ TEMA=/usr/share/sddm/themes/catppuccin-mocha-blue
 
 echo "==> Instalando o SDDM e o tema Catppuccin Mocha..."
 sudo pacman -S --needed sddm
-yay -S --needed catppuccin-sddm-theme-mocha
+yay -S --needed catppuccin-sddm-theme-mocha catppuccin-cursors-mocha
 
 echo "==> Copiando as configurações..."
 sudo install -Dm644 tema.conf       /etc/sddm.conf.d/tema.conf
