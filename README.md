@@ -2,8 +2,8 @@
 
 Minhas configurações do **Arch Linux + Hyprland**, comentadas em português.
 
-Tema **Miles Morales** (Homem-Aranha no Aranhaverso): preto, vermelho e ciano "glitch",
-com papel de parede animado, cantos arredondados, desfoque e animações.
+Tema **Muzan** (Demon Slayer): preto, carmesim e brasa, com papel de parede animado,
+cantos arredondados, desfoque e animações dramáticas.
 Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacional** e **português ABNT2**.
 
 ## O que tem aqui
@@ -137,14 +137,14 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 | ç | `AltGr + ,` |
 | `'` ou `"` sozinho | a tecla + Espaço |
 
-## Cores (tema Miles Morales)
+## Cores (tema Muzan)
 
 | Cor | Hex | Uso |
 |---|---|---|
-| Preto | `#0d0d12` | fundos |
-| Vermelho Miles | `#ff2a4f` | destaque: bordas, área ativa, seleção, cursor do terminal |
-| Ciano "glitch" | `#00d8ff` | segundo destaque (o efeito do Aranhaverso) |
-| Branco | `#f4f4f6` | texto |
+| Preto avermelhado | `#0a0608` | fundos |
+| Carmesim | `#e3123b` | destaque: bordas, área ativa, seleção, cursor do terminal |
+| Brasa | `#ff7b5c` | segundo destaque (o brilho do olho do Muzan) |
+| Branco rosado | `#f5ecee` | texto |
 
 As cores ficam em `aparencia.lua` (bordas e sombra), `waybar/style.css` (`@define-color`),
 `rofi/config.rasi`, `mako/config`, `kitty.conf` e `hyprlock.conf`.
@@ -158,8 +158,12 @@ O `hypr/scripts/wallpaper.sh` escolhe sozinho:
 - a imagem padrão do Hyprland se não houver vídeo.
 
 O vídeo fica **fora do repositório** (personagens têm direitos autorais), em
-`~/Imagens/wallpapers/miles.mp4`. Para usar outro, troque o arquivo (ou a variável `VIDEO`
-no script) e apague a `miles.png` gerada.
+`~/Imagens/wallpapers/wallpaper.mp4`. Para usar outro, troque o arquivo e apague o
+`wallpaper.png` gerado. Vídeos 4K ficam muito mais leves convertidos para 1080p/30 fps sem som:
+
+```bash
+ffmpeg -i video.mp4 -vf "scale=1920:1080,fps=30" -c:v libx264 -crf 22 -an ~/Imagens/wallpapers/wallpaper.mp4
+```
 
 ```bash
 yay -S mpvpaper
@@ -180,15 +184,17 @@ sudo papirus-folders -C blue --theme Papirus-Dark
 
 ## Animações
 
-- **Janelas** abrem crescendo com um "pulinho" (mola), fecham encolhendo e deslizam ao mudar de lugar
-- **Janelas gelatinosas** (*wobble*, novo no Hyprland 0.57): balançam ao arrastar ou redimensionar
-- **Borda da janela ativa**: o degradê vermelho → ciano gira (uma volta a cada 4 s), com brilho vermelho em volta
-- **Menu (Rofi)** abre crescendo; **notificações** deslizam pela direita
-- **Áreas de trabalho** deslizam para o lado; o rascunho (`Super + S`) desce de cima
-- **Barra**: a área ativa "cresce" com um degradê vermelho → ciano que flui (igual à borda das janelas),
-  barrinhas que dançam no ritmo da música ao lado do Spotify (cava), o Spotify "pulsa" enquanto toca,
-  os módulos acendem ao passar o mouse,
-  a bateria pisca em vermelho quando está crítica e "respira" ao carregar
+Estilo "Muzan": dramático e sinistro, sem molas elásticas.
+- **Abrir janela**: surge pequena e cresce, desacelerando devagar ("emergindo das sombras")
+- **Fechar janela**: achata até virar uma linha, como uma pálpebra fechando
+- **Mover janela**: desliza pesada, sem quicar; ao arrastar, balança de leve (*wobble*, novo na 0.57)
+- **Borda da janela ativa**: degradê carmesim → brasa → vermelho-escuro girando (uma volta a cada 6 s),
+  com brilho vermelho em volta
+- **Áreas de trabalho**: deslizam com fade, como névoa; o rascunho (`Super + S`) desce de cima
+- **Menu e notificações**: surgem com fade suave; notificações deslizam pela direita
+- **Barra**: a área ativa "cresce" com um degradê que flui, barrinhas que dançam no ritmo da música
+  ao lado do Spotify (cava), o Spotify "pulsa" enquanto toca, os módulos acendem ao passar o mouse,
+  a bateria pisca quando está crítica e "respira" ao carregar
 
 Tudo fica em `hypr/.config/hypr/aparencia.lua` e `waybar/.config/waybar/style.css`.
 O modo economia (`Super + Shift + B`) desliga todas as animações.

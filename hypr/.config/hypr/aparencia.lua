@@ -1,9 +1,9 @@
 -- =============================================================
---  aparencia.lua — visual (tema Miles Morales: preto, vermelho e ciano)
+--  aparencia.lua — visual (tema Muzan (Demon Slayer): preto, carmesim e brasa)
 -- =============================================================
---  Paleta "Miles Morales" (Aranhaverso):
---    vermelho #ff2a4f   ciano (glitch) #00d8ff   preto #0d0d12
---    cinza    #2a2a35   (borda das janelas sem foco)
+--  Paleta "Muzan" (Demon Slayer), tirada do papel de parede:
+--    carmesim #e3123b   brasa (olho) #ff7b5c   preto #0a0608
+--    cinza    #2e1a1f   (borda das janelas sem foco)
 -- =============================================================
 
 hl.config({
@@ -13,9 +13,10 @@ hl.config({
         border_size = 2,
 
         col = {
-            -- Borda da janela com foco: degradê vermelho → ciano (o "glitch" do Aranhaverso)
-            active_border   = { colors = { "rgba(ff2a4fee)", "rgba(00d8ffee)" }, angle = 45 },
-            inactive_border = "rgba(2a2a35aa)",
+            -- Borda da janela com foco: degradê carmesim → brasa (o brilho do olho do Muzan)
+            -- (passa por um vermelho bem escuro: ao girar, parece sangue escorrendo)
+            active_border   = { colors = { "rgba(e3123bee)", "rgba(ff7b5cee)", "rgba(5c0a1aee)" }, angle = 45 },
+            inactive_border = "rgba(2e1a1faa)",
         },
 
         resize_on_border = true,      -- redimensionar arrastando a borda
@@ -32,7 +33,7 @@ hl.config({
             enabled      = true,
             range          = 14,
             render_power   = 3,
-            color          = 0x66ff2a4f, -- janela com foco: brilho vermelho em volta
+            color          = 0x66e3123b, -- janela com foco: brilho vermelho em volta
             color_inactive = 0xaa000000, -- outras janelas: sombra preta comum
         },
 
@@ -69,42 +70,45 @@ hl.config({
 
 -- Curvas
 hl.curve("easeOutQuint", { type = "bezier", points = { {0.23, 1},    {0.32, 1}   } }) -- freia suave no fim
-hl.curve("overshot",     { type = "bezier", points = { {0.05, 0.9},  {0.1, 1.1}  } }) -- passa um pouco do ponto e volta
+hl.curve("sinistra",     { type = "bezier", points = { {0.16, 1},    {0.3, 1}    } }) -- dispara e desacelera BEM devagar
+hl.curve("corte",        { type = "bezier", points = { {0.7, 0},     {0.84, 0}   } }) -- começa lento e termina num golpe
 hl.curve("linear",       { type = "bezier", points = { {0, 0},       {1, 1}      } }) -- velocidade constante
-hl.curve("almostLinear", { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}   } })
 hl.curve("quick",        { type = "bezier", points = { {0.15, 0},    {0.1, 1}    } })
-hl.curve("easy",         { type = "spring", mass = 1, stiffness = 238, damping = 24 }) -- mola firme (sem quicar)
-hl.curve("bouncy",       { type = "spring", mass = 1, stiffness = 260, damping = 15 }) -- mola com "pulinho"
+hl.curve("pesada",       { type = "spring", mass = 1.4, stiffness = 180, damping = 30 }) -- mola pesada, sem quicar
 
--- Janelas: abrem crescendo com um pulinho, fecham encolhendo rápido,
--- e deslizam com mola quando mudam de lugar
+-- Janelas (tema Muzan: dramático e sinistro, nada de "pulinho"):
+--   abrir  → surge pequena e cresce, desacelerando devagar ("emergindo das sombras")
+--   fechar → achata até virar uma linha, como uma pálpebra fechando ("gnomed")
+--   mover  → desliza pesada, sem quicar
 hl.animation({ leaf = "global",      enabled = true, speed = 10,  bezier = "default" })
-hl.animation({ leaf = "windows",     enabled = true, speed = 5,   spring = "bouncy" })
-hl.animation({ leaf = "windowsIn",   enabled = true, speed = 4.5, spring = "bouncy", style = "popin 70%" })
-hl.animation({ leaf = "windowsOut",  enabled = true, speed = 2,   bezier = "easeOutQuint", style = "popin 80%" })
-hl.animation({ leaf = "windowsMove", enabled = true, speed = 5,   spring = "bouncy" })
-hl.animation({ leaf = "fade",        enabled = true, speed = 3,   bezier = "quick" })
+hl.animation({ leaf = "windows",     enabled = true, speed = 5,   spring = "pesada" })
+hl.animation({ leaf = "windowsIn",   enabled = true, speed = 6,   bezier = "sinistra", style = "popin 40%" })
+hl.animation({ leaf = "windowsOut",  enabled = true, speed = 3,   bezier = "corte",    style = "gnomed" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 5,   spring = "pesada" })
+hl.animation({ leaf = "fade",        enabled = true, speed = 4,   bezier = "sinistra" })
+hl.animation({ leaf = "fadeIn",      enabled = true, speed = 6,   bezier = "sinistra" })
+hl.animation({ leaf = "fadeOut",     enabled = true, speed = 3,   bezier = "corte" })
 
--- Borda da janela ativa: a cor muda suave e o degradê vermelho → ciano GIRA devagar
--- (borderangle + "loop" = uma volta completa a cada 4 s; speed 40 = 40 décimos de segundo)
+-- Borda da janela ativa: a cor muda suave e o degradê carmesim → brasa → vermelho-escuro
+-- GIRA devagar (uma volta a cada 6 s; speed 60 = 60 décimos de segundo)
 hl.animation({ leaf = "border",      enabled = true, speed = 5,   bezier = "easeOutQuint" })
-hl.animation({ leaf = "borderangle", enabled = true, speed = 40,  bezier = "linear", style = "loop" })
+hl.animation({ leaf = "borderangle", enabled = true, speed = 60,  bezier = "linear", style = "loop" })
 
--- Menus, barra e notificações ("layers")
-hl.animation({ leaf = "layers",      enabled = true, speed = 4,   bezier = "overshot" })
-hl.animation({ leaf = "layersIn",    enabled = true, speed = 4,   bezier = "overshot",     style = "popin 85%" })
-hl.animation({ leaf = "layersOut",   enabled = true, speed = 2,   bezier = "easeOutQuint", style = "fade" })
+-- Menus, barra e notificações ("layers"): surgem com fade, sem quicar
+hl.animation({ leaf = "layers",      enabled = true, speed = 4,   bezier = "sinistra" })
+hl.animation({ leaf = "layersIn",    enabled = true, speed = 4,   bezier = "sinistra", style = "popin 90%" })
+hl.animation({ leaf = "layersOut",   enabled = true, speed = 2,   bezier = "corte",    style = "fade" })
 
--- Áreas de trabalho: deslizam para o lado; o rascunho (Super + S) desce de cima
-hl.animation({ leaf = "workspaces",       enabled = true, speed = 4, bezier = "easeOutQuint", style = "slide" })
-hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4, bezier = "easeOutQuint", style = "slidevert" })
+-- Áreas de trabalho: deslizam com fade (como névoa passando); o rascunho desce de cima
+hl.animation({ leaf = "workspaces",       enabled = true, speed = 6, bezier = "sinistra", style = "slidefade 30%" })
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 6, bezier = "sinistra", style = "slidefadevert 30%" })
 
 -- Janelas "gelatinosas" (novo na 0.57): balançam ao arrastar ou redimensionar
 hl.config({
     decoration = {
         wobble = {
             enabled   = true,
-            intensity = 0.25, -- quanto balança (0 = nada)
+            intensity = 0.12, -- quanto balança (0 = nada); baixo = mais "pesado"
             stiffness = 200,  -- firmeza da "gelatina"
             damping   = 12,   -- quanto tempo demora para parar
         },
@@ -112,7 +116,7 @@ hl.config({
 })
 
 -- Animação própria de cada menu (regras de "layer", por nome)
-hl.layer_rule({ name = "anim-rofi",         match = { namespace = "^rofi$" },          animation = "popin 85%" })
+hl.layer_rule({ name = "anim-rofi",         match = { namespace = "^rofi$" },          animation = "popin 90%" })
 hl.layer_rule({ name = "anim-notificacoes", match = { namespace = "^notifications$" }, animation = "slide right" })
 hl.layer_rule({ name = "anim-bloqueio",     match = { namespace = "^hyprlock$" },      animation = "fade" })
 
