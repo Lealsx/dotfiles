@@ -2,7 +2,8 @@
 
 Minhas configurações do **Arch Linux + Hyprland**, comentadas em português.
 
-Tema escuro **Catppuccin Mocha**, cantos arredondados, desfoque e animações suaves.
+Tema **Miles Morales** (Homem-Aranha no Aranhaverso): preto, vermelho e ciano "glitch",
+com papel de parede animado, cantos arredondados, desfoque e animações.
 Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacional** e **português ABNT2**.
 
 ## O que tem aqui
@@ -36,7 +37,6 @@ hypr/.config/hypr/
 ├── economia.lua     → modo economia de bateria
 ├── hyprlock.conf    → tela de bloqueio
 ├── hypridle.conf    → bloqueio/suspensão por inatividade
-├── hyprpaper.conf   → papel de parede
 └── scripts/         → menu de energia, prints, histórico do copiar, Spotify, modo economia
 ```
 
@@ -137,6 +137,34 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 | ç | `AltGr + ,` |
 | `'` ou `"` sozinho | a tecla + Espaço |
 
+## Cores (tema Miles Morales)
+
+| Cor | Hex | Uso |
+|---|---|---|
+| Preto | `#0d0d12` | fundos |
+| Vermelho Miles | `#ff2a4f` | destaque: bordas, área ativa, seleção, cursor do terminal |
+| Ciano "glitch" | `#00d8ff` | segundo destaque (o efeito do Aranhaverso) |
+| Branco | `#f4f4f6` | texto |
+
+As cores ficam em `aparencia.lua` (bordas e sombra), `waybar/style.css` (`@define-color`),
+`rofi/config.rasi`, `mako/config`, `kitty.conf` e `hyprlock.conf`.
+
+## Papel de parede
+
+O `hypr/scripts/wallpaper.sh` escolhe sozinho:
+- **vídeo em loop** com o [mpvpaper](https://github.com/GhostNaN/mpvpaper) (pausa quando as janelas cobrem a tela
+  e usa a placa de vídeo para decodificar);
+- **imagem parada** com o hyprpaper no modo economia (um quadro tirado do próprio vídeo);
+- a imagem padrão do Hyprland se não houver vídeo.
+
+O vídeo fica **fora do repositório** (personagens têm direitos autorais), em
+`~/Imagens/wallpapers/miles.mp4`. Para usar outro, troque o arquivo (ou a variável `VIDEO`
+no script) e apague a `miles.png` gerada.
+
+```bash
+yay -S mpvpaper
+```
+
 ## Ícones e cursor
 
 - **Ícones**: [Papirus-Dark](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) com pastas azuis
@@ -154,10 +182,10 @@ sudo papirus-folders -C blue --theme Papirus-Dark
 
 - **Janelas** abrem crescendo com um "pulinho" (mola), fecham encolhendo e deslizam ao mudar de lugar
 - **Janelas gelatinosas** (*wobble*, novo no Hyprland 0.57): balançam ao arrastar ou redimensionar
-- **Borda da janela ativa**: o degradê azul → lilás gira (uma volta a cada 4 s)
+- **Borda da janela ativa**: o degradê vermelho → ciano gira (uma volta a cada 4 s), com brilho vermelho em volta
 - **Menu (Rofi)** abre crescendo; **notificações** deslizam pela direita
 - **Áreas de trabalho** deslizam para o lado; o rascunho (`Super + S`) desce de cima
-- **Barra**: a área ativa "cresce" com um degradê azul → lilás que flui (igual à borda das janelas),
+- **Barra**: a área ativa "cresce" com um degradê vermelho → ciano que flui (igual à borda das janelas),
   barrinhas que dançam no ritmo da música ao lado do Spotify (cava), o Spotify "pulsa" enquanto toca,
   os módulos acendem ao passar o mouse,
   a bateria pisca em vermelho quando está crítica e "respira" ao carregar
@@ -169,5 +197,5 @@ O modo economia (`Super + Shift + B`) desliga todas as animações.
 
 - Checar erros na config do Hyprland: `Hyprland --verify-config`
 - Ver o nome/classe das janelas (para criar regras): `hyprctl clients`
-- Trocar o papel de parede: edite `hypr/.config/hypr/hyprpaper.conf`
+- Trocar o papel de parede: veja a seção "Papel de parede"
 - Rodar um app na placa NVIDIA: `prime-run <app>`

@@ -4,7 +4,7 @@
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")                      -- barra do topo
-    hl.exec_cmd("hyprpaper")                   -- papel de parede
+    hl.exec_cmd(scripts .. "/wallpaper.sh")    -- papel de parede (vídeo ou imagem)
     hl.exec_cmd("mako")                        -- notificações
     hl.exec_cmd("hypridle")                    -- bloqueio/suspensão por inatividade
     hl.exec_cmd("systemctl --user start hyprpolkitagent") -- janela de senha de admin

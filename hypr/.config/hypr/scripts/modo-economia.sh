@@ -4,7 +4,8 @@
 #  Atalho: Super + Shift + B  (ou clique na folha da barra)
 # =============================================================
 #  Ligado:    perfil de energia "power-saver", tela do notebook a 60 Hz,
-#             sem desfoque/sombras/animações, Bluetooth desligado
+#             sem desfoque/sombras/animações, Bluetooth desligado,
+#             papel de parede parado em vez do vídeo
 #  Desligado: volta tudo ao normal ("balanced", 144 Hz, efeitos, Bluetooth)
 #
 #    modo-economia.sh          → alterna (liga se estiver desligado e vice-versa)
@@ -36,5 +37,6 @@ else
 fi
 
 hyprctl reload >/dev/null          # aplica o economia.lua (efeitos e 60 Hz)
+setsid "$HOME/.config/hypr/scripts/wallpaper.sh" >/dev/null 2>&1 &   # vídeo ⇄ imagem parada
 pkill -RTMIN+8 waybar              # avisa a barra para atualizar a folha
 notify-send -i battery "Modo economia" "$mensagem"
