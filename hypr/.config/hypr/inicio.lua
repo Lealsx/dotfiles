@@ -17,4 +17,6 @@ hl.on("hyprland.start", function()
 
     -- Tema escuro nos apps GTK (Nautilus, etc.)
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
+    -- Ícones dos apps e pastas: Papirus (versão escura)
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'")
 end)

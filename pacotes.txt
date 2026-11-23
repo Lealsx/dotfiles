@@ -36,6 +36,7 @@ blueman
 
 # Aparência e compatibilidade
 nwg-look
+papirus-icon-theme
 qt5-wayland
 qt6-wayland
 ttf-jetbrains-mono-nerd

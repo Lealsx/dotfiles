@@ -6,7 +6,7 @@
 configuration {
     modi: "drun,window,run";
     show-icons: true;
-    icon-theme: "Adwaita";
+    icon-theme: "Papirus-Dark";
     display-drun: "Apps";
     display-window: "Janelas";
     display-run: "Comandos";
@@ -48,6 +48,13 @@ entry    { placeholder: "Buscar..."; placeholder-color: @apagado; }
 listview { lines: 8; columns: 1; spacing: 4px; scrollbar: false; }
 
 element  { padding: 8px 12px; border-radius: 8px; spacing: 12px; }
+/* Itens não selecionados: fundo transparente (o Rofi novo pinta de claro por padrão) */
+element normal.normal, element alternate.normal, element normal.active,
+element alternate.active, element normal.urgent, element alternate.urgent {
+    background-color: transparent;
+    text-color: @texto;
+}
+element selected.active, element selected.urgent { background-color: @azul; text-color: #1e1e2e; }
 element selected.normal { background-color: @azul; text-color: #1e1e2e; }
 element-icon { size: 24px; }
 element-text { text-color: inherit; vertical-align: 0.5; }
