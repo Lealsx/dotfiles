@@ -16,7 +16,7 @@
     "spacing": 6,
 
     "modules-left":   ["custom/menu", "hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["clock", "group/spotify", "mpris"],
+    "modules-center": ["clock", "group/spotify", "custom/player"],
     "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "custom/economia", "battery", "tray", "custom/energia"],
 
     // Botão que abre o menu de aplicativos
@@ -31,8 +31,8 @@
     // "window-rewrite": qual ícone usar para cada app (pela "class" da janela,
     // que dá para ver com: hyprctl clients). Os ícones são da fonte Nerd Font.
     "hyprland/workspaces": {
-        "format": "{id} {windows}",
-        "format-window-separator": " ",
+        "format": "{id}  {windows}",
+        "format-window-separator": "  ",
         "window-rewrite-default": "\uf059",
         "window-rewrite": {
             "class<kitty>": "\uf120",
@@ -115,28 +115,18 @@
         "on-click": "playerctl --player=spotify next"
     },
 
-    // Música/vídeo tocando agora (Spotify, YouTube no Brave, VLC...)
-    // O Spotify tem o próprio módulo acima, então aqui ele é ignorado.
-    // Só aparece quando tem algo tocando.
-    // Clique = tocar/pausar | botão do meio = anterior | botão direito = próxima
-    // Rolar = próxima/anterior
-    "mpris": {
-        "format": "{player_icon}  {dynamic}",
-        "format-paused": "{status_icon}  <i>{dynamic}</i>",
-        "dynamic-order": ["title", "artist"],
-        "dynamic-separator": " · ",
-        "dynamic-len": 45,
-        "ignored-players": ["spotify"],
-        "player-icons": {
-            "default": "\uf001",
-            "spotify": "\uf1bc",
-            "brave": "\uf144",
-            "chromium": "\uf144"
-        },
-        "status-icons": { "paused": "\uf04c" },
-        "tooltip-format": "{player}: {title}\n{artist} — {album}",
-        "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous"
+    // Música/vídeo tocando FORA do Spotify (YouTube no Brave, VLC...)
+    // Só aparece quando tem algo tocando ou pausado.
+    // Clique = tocar/pausar | botão direito = próxima | rolar = próxima/anterior
+    "custom/player": {
+        "exec": "~/.config/hypr/scripts/player.sh",
+        "return-type": "json",
+        "interval": 2,
+        "on-click": "playerctl --ignore-player=spotify play-pause",
+        "on-click-right": "playerctl --ignore-player=spotify next",
+        "on-scroll-up": "playerctl --ignore-player=spotify next",
+        "on-scroll-down": "playerctl --ignore-player=spotify previous",
+        "escape": false
     },
 
     // Teclado atual: clique para trocar (o mesmo que Super + Espaço)
@@ -149,7 +139,7 @@
 
     // Volume: clique = mudo | botão direito = controle de som | rolar = volume
     "pulseaudio": {
-        "format": "{icon} {volume}%",
+        "format": "{icon}  {volume}%",
         "format-muted": "󰝟 mudo",
         "format-icons": { "headphone": "\uf025", "default": ["\uf026", "\uf027", "\uf028"] },
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",

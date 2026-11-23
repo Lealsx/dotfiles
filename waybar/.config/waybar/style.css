@@ -26,7 +26,7 @@ window#waybar {
 }
 
 /* Cada módulo vira uma "pílula" arredondada */
-#custom-menu, #workspaces, #window, #clock, #mpris, #language, #pulseaudio,
+#custom-menu, #workspaces, #window, #clock, #custom-player, #language, #pulseaudio,
 #backlight, #network, #custom-economia, #battery, #tray, #custom-energia {
     background: alpha(@fundo, 0.85);
     border-radius: 10px;
@@ -68,8 +68,8 @@ window#waybar.empty #window { background: transparent; }
 #clock      { color: @lilas; font-weight: bold; }
 
 /* Outros players (YouTube etc.): verde tocando, apagado pausado */
-#mpris        { color: @verde; }
-#mpris.paused { color: @apagado; }
+#custom-player         { color: @verde; }
+#custom-player.pausado { color: @apagado; }
 
 /* Spotify: uma pílula só com a música e os botões */
 @define-color spotify #1db954;
@@ -141,12 +141,12 @@ tooltip label { color: @texto; }
 }
 
 /* Todos os módulos: ao passar o mouse, clareiam e o texto acende */
-#custom-menu, #clock, #mpris, #language, #pulseaudio, #backlight,
+#custom-menu, #clock, #custom-player, #language, #pulseaudio, #backlight,
 #network, #custom-economia, #battery, #custom-energia,
 #custom-spotify-anterior, #custom-spotify-play, #custom-spotify-proxima {
     transition: all 0.25s ease;
 }
-#clock:hover, #mpris:hover, #language:hover,
+#clock:hover, #custom-player:hover, #language:hover,
 #pulseaudio:hover, #backlight:hover, #network:hover,
 #custom-economia:hover, #battery:hover {
     background: @fundo2;
