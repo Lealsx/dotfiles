@@ -94,3 +94,56 @@ tooltip {
     border-radius: 10px;
 }
 tooltip label { color: @texto; }
+
+/* =============================================================
+   Animações
+   =============================================================
+   transition → a mudança acontece aos poucos, não de uma vez
+   cubic-bezier(... 1.68) → passa um pouco do tamanho e volta ("pulinho")
+   ============================================================= */
+
+/* Áreas de trabalho: o botão ativo "cresce" e o resto encolhe suave */
+#workspaces button {
+    min-width: 18px;
+    transition: all 0.35s cubic-bezier(0.55, -0.68, 0.48, 1.68);
+}
+#workspaces button.active {
+    min-width: 38px;
+}
+/* Área visível no OUTRO monitor (sem foco): destaque leve, sem crescer */
+#workspaces button.visible:not(.active) {
+    color: @azul;
+    background: alpha(@azul, 0.15);
+}
+
+/* Todos os módulos: ao passar o mouse, clareiam e o texto acende */
+#custom-menu, #clock, #mpris, #language, #pulseaudio, #backlight,
+#network, #custom-economia, #battery, #custom-energia,
+#custom-spotify-anterior, #custom-spotify-play, #custom-spotify-proxima {
+    transition: all 0.25s ease;
+}
+#custom-menu:hover, #clock:hover, #mpris:hover, #language:hover,
+#pulseaudio:hover, #backlight:hover, #network:hover,
+#custom-economia:hover, #battery:hover {
+    background: @fundo2;
+    color: @texto;
+}
+#custom-menu:hover    { color: @lilas; }
+#custom-energia:hover { background: @vermelho; color: @fundo; }
+
+/* Bateria crítica (10% ou menos, fora da tomada): pisca em vermelho */
+@keyframes piscar {
+    to { background: @vermelho; color: @fundo; }
+}
+#battery.critical:not(.charging) {
+    animation: piscar 0.8s ease-in-out infinite alternate;
+}
+
+/* Carregando: o verde "respira" devagar */
+@keyframes respirar {
+    to { color: @texto; }
+}
+#battery.charging {
+    animation: respirar 2s ease-in-out infinite alternate;
+}
+
