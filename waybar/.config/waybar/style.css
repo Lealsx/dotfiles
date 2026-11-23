@@ -1,13 +1,13 @@
 /* =============================================================
-   Waybar — visual (tema Miles Morales: preto, vermelho e ciano)
+   Waybar — visual (tema Muzan (Demon Slayer): preto, carmesim e brasa)
    ============================================================= */
 
-@define-color fundo     #0d0d12;
-@define-color fundo2    #1f1f29;
-@define-color texto     #f4f4f6;
-@define-color apagado   #6e6e7e;
-@define-color destaque  #ff2a4f;   /* vermelho Miles */
-@define-color destaque2 #00d8ff;   /* ciano "glitch" */
+@define-color fundo     #0a0608;
+@define-color fundo2    #1e0f13;
+@define-color texto     #f5ecee;
+@define-color apagado   #7a6a6e;
+@define-color destaque  #e3123b;   /* carmesim */
+@define-color destaque2 #ff7b5c;   /* brasa (brilho do olho) */
 @define-color verde     #a6e3a1;
 @define-color amarelo   #f9e2af;
 @define-color vermelho  #f38ba8;
@@ -45,7 +45,7 @@ window#waybar.empty #window { background: transparent; }
 }
 #custom-menu    { color: @destaque; font-size: 16px; }
 
-/* Ícone do Arch: troca de cor sem parar (vermelho → ciano → branco) com brilho
+/* Ícone do Arch: troca de cor sem parar (carmesim → brasa → branco) com brilho
    pulsando; ao passar o mouse, cresce */
 @keyframes arco-iris {
     0%   { color: @destaque;  text-shadow: 0 0 2px alpha(@destaque, 0.4); }
@@ -135,7 +135,7 @@ tooltip label { color: @texto; }
 }
 #workspaces button.active {
     min-width: 38px;
-    /* degradê vermelho → ciano → vermelho, 3x mais largo que o botão... */
+    /* degradê carmesim → brasa → carmesim, 3x mais largo que o botão... */
     background-image: linear-gradient(90deg, @destaque, @destaque2, @destaque, @destaque2);
     background-size: 300% 100%;
     /* ...e deslizando de um lado para o outro (igual à borda das janelas) */

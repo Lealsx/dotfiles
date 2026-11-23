@@ -69,8 +69,8 @@
         "calendar": {
             "mode": "month",
             "format": {
-                "months": "<span color='#ff2a4f'><b>{}</b></span>",
-                "today":  "<span color='#00d8ff'><b><u>{}</u></b></span>"
+                "months": "<span color='#e3123b'><b>{}</b></span>",
+                "today":  "<span color='#ff7b5c'><b><u>{}</u></b></span>"
             }
         }
     },

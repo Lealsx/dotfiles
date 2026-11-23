@@ -15,11 +15,11 @@ configuration {
 }
 
 * {
-    fundo:   #0d0d12f2;
-    fundo2:  #1f1f29;
-    texto:   #f4f4f6;
-    apagado: #6e6e7e;
-    destaque: #ff2a4f;
+    fundo:   #0a0608f2;
+    fundo2:  #1e0f13;
+    texto:   #f5ecee;
+    apagado: #7a6a6e;
+    destaque: #e3123b;
 
     background-color: transparent;
     text-color: @texto;
