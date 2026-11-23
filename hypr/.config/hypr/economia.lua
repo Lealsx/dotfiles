@@ -22,6 +22,7 @@ function aplicar_economia()
         decoration = {
             blur   = { enabled = false }, -- sem desfoque
             shadow = { enabled = false }, -- sem sombras
+            wobble = { enabled = false }, -- sem janelas "gelatinosas"
             inactive_opacity = 1.0,       -- sem transparência
         },
         animations = { enabled = false }, -- sem animações
