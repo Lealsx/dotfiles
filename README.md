@@ -144,7 +144,9 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 - **Borda da janela ativa**: o degradê azul → lilás gira (uma volta a cada 4 s)
 - **Menu (Rofi)** abre crescendo; **notificações** deslizam pela direita
 - **Áreas de trabalho** deslizam para o lado; o rascunho (`Super + S`) desce de cima
-- **Barra**: a área ativa "cresce", os módulos acendem ao passar o mouse,
+- **Barra**: a área ativa "cresce" com um degradê azul → lilás que flui (igual à borda das janelas),
+  barrinhas que dançam no ritmo da música ao lado do Spotify (cava), o Spotify "pulsa" enquanto toca,
+  os módulos acendem ao passar o mouse,
   a bateria pisca em vermelho quando está crítica e "respira" ao carregar
 
 Tudo fica em `hypr/.config/hypr/aparencia.lua` e `waybar/.config/waybar/style.css`.

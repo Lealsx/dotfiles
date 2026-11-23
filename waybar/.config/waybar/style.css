@@ -109,6 +109,15 @@ tooltip label { color: @texto; }
 }
 #workspaces button.active {
     min-width: 38px;
+    /* degradê azul → lilás → azul, 3x mais largo que o botão... */
+    background-image: linear-gradient(90deg, @azul, @lilas, @azul, @lilas);
+    background-size: 300% 100%;
+    /* ...e deslizando de um lado para o outro (igual à borda das janelas) */
+    animation: fluir 4s linear infinite;
+}
+@keyframes fluir {
+    from { background-position: 0% 0%; }
+    to   { background-position: 100% 0%; }
 }
 /* Área visível no OUTRO monitor (sem foco): destaque leve, sem crescer */
 #workspaces button.visible:not(.active) {
@@ -145,5 +154,21 @@ tooltip label { color: @texto; }
 }
 #battery.charging {
     animation: respirar 2s ease-in-out infinite alternate;
+}
+
+/* Visualizador de música: barrinhas verdes (cor do Spotify) */
+#custom-visualizador {
+    color: @spotify;
+    padding: 0 4px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+/* Spotify tocando: o verde "pulsa" de leve */
+@keyframes pulsar {
+    to { color: alpha(@spotify, 0.6); }
+}
+#custom-spotify.tocando {
+    animation: pulsar 1.2s ease-in-out infinite alternate;
 }
 

@@ -58,7 +58,7 @@
     // [ícone + música] [anterior] [tocar/pausar] [próxima]
     "group/spotify": {
         "orientation": "horizontal",
-        "modules": ["custom/spotify", "custom/spotify-anterior", "custom/spotify-play", "custom/spotify-proxima"]
+        "modules": ["custom/spotify", "custom/visualizador", "custom/spotify-anterior", "custom/spotify-play", "custom/spotify-proxima"]
     },
 
     // Música atual. Clique = abrir/mostrar o Spotify | rolar = próxima/anterior
@@ -70,6 +70,12 @@
         "on-scroll-up": "playerctl --player=spotify next",
         "on-scroll-down": "playerctl --player=spotify previous",
         "escape": false
+    },
+    // Barrinhas que dançam no ritmo da música (cava). Somem quando não há som.
+    "custom/visualizador": {
+        "exec": "~/.config/hypr/scripts/visualizador.sh",
+        "format": "{}",
+        "tooltip": false
     },
     "custom/spotify-anterior": {
         "format": "\uf048",

@@ -46,6 +46,7 @@ nautilus
 
 # Música (o Spotify oficial)
 spotify-launcher
+cava
 
 # Para instalar estes dotfiles
 stow
