@@ -93,7 +93,7 @@
         "on-scroll-down": "playerctl --player=spotify previous",
         "escape": false
     },
-    // Barrinhas que dançam no ritmo da música (cava). Somem quando não há som.
+    // Barrinhas que dançam no ritmo da música (cava). Sem som, ficam paradas no chão (▁▁▁).
     "custom/visualizador": {
         "exec": "~/.config/hypr/scripts/visualizador.sh",
         "format": "{}",

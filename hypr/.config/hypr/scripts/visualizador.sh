@@ -3,19 +3,22 @@
 #  visualizador.sh — barrinhas que dançam com a música (Waybar)
 # =============================================================
 #  Roda o cava e converte os números 0–7 em ▁▂▃▄▅▆▇█.
-#  - Sem som tocando → não mostra nada (o módulo some da barra)
-#  - Modo economia ligado → para o cava e não mostra nada
+#  - Sem som tocando → barrinhas paradas no chão (▁▁▁▁)
+#  - Modo economia ligado → para o cava e deixa as barrinhas paradas
 #  - cava não instalado → não mostra nada
 # =============================================================
 
 config="$HOME/.config/waybar/cava.conf"
 economia="$HOME/.cache/hypr-economia"
+# barrinhas paradas (uma ▁ para cada barra do cava.conf)
+barras=$(sed -n 's/^bars *= *//p' "$config")
+parado=$(printf '▁%.0s' $(seq "${barras:-10}"))
 
 command -v cava >/dev/null || { echo ""; exec sleep infinity; }
 
 while true; do
     if [ -e "$economia" ]; then
-        echo ""            # esconde o módulo
+        echo "$parado"     # barrinhas paradas, cava desligado
         sleep 5
         continue
     fi
@@ -29,12 +32,11 @@ while true; do
 
             gsub(/;$/, "")
             n = split($0, alturas, ";")
-            linha = ""; silencio = 1
+            linha = ""
             for (i = 1; i <= n; i++) {
                 linha = linha blocos[alturas[i] + 1]
-                if (alturas[i] > 0) silencio = 0
             }
-            print (silencio ? "" : linha)
+            print linha
             fflush()
         }'
 done
