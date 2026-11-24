@@ -1,0 +1,5 @@
+# Cursor padrão para apps que não seguem o tema configurado (ex.: alguns apps
+# X11 e Flatpak). "Inherits" = usar o cursor Bibata Modern Classic.
+[Icon Theme]
+Name=Default
+Inherits=Bibata-Modern-Classic

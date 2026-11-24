@@ -7,9 +7,10 @@
 #  3) cria os links de ~/.config para este repositório com o stow
 # =============================================================
 set -euo pipefail
+shopt -s nullglob   # pastas sem .config (ex.: icones) não quebram o loop
 
 cd "$(dirname "$0")"
-PASTAS=(hypr waybar rofi mako kitty swappy)
+PASTAS=(hypr waybar rofi mako kitty swappy icones)
 
 echo "==> Instalando pacotes..."
 grep -vE '^\s*(#|$)' pacotes.txt | sudo pacman -S --needed -

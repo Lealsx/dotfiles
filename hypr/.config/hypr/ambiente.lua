@@ -10,6 +10,11 @@
 hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
 hl.env("XCURSOR_SIZE", "24")
 
+-- O Hyprland prefere cursores no formato nativo dele (hyprcursor). O Bibata não
+-- tem esse formato; se outro tema instalado tiver (ex.: Catppuccin), o Hyprland
+-- usaria ESSE no lugar do Bibata. Desligando, ele usa o XCURSOR_THEME acima.
+hl.config({ cursor = { enable_hyprcursor = false } })
+
 -- Apps Qt (ex.: IntelliJ partes, pavucontrol-qt) rodando nativo no Wayland;
 -- se não der, cai para o modo X11 (xcb).
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")

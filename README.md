@@ -16,6 +16,7 @@ Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacion
 | `mako/` | [mako](https://github.com/emersion/mako) | Notificações |
 | `kitty/` | [kitty](https://sw.kovidgoyal.net/kitty/) | Terminal |
 | `swappy/` | [swappy](https://github.com/jtheoof/swappy) | Editor de capturas de tela |
+| `icones/` | — | Cursor padrão (`~/.icons/default`) para apps que não seguem o tema |
 | `sistema/sddm/` | [SDDM](https://github.com/sddm/sddm) + [SilentSDDM](https://github.com/uiriansan/SilentSDDM) | Tela de login no tema Muzan (fora do stow, ver abaixo) |
 
 Cada pasta segue o formato do [GNU Stow](https://www.gnu.org/software/stow/):
