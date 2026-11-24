@@ -23,3 +23,22 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 24")
 end)
+
+-- -------------------------------------------------------------
+--  Monitor reconectado → reabre a Waybar
+-- -------------------------------------------------------------
+--  Quando um monitor volta (cabo, suspensão, monitor que desligou),
+--  a Waybar às vezes não cria a barra nele. Ao reabrir, ela cria
+--  uma barra para cada monitor ligado.
+--  O "contador" evita reabrir várias vezes seguidas se o monitor
+--  piscar: só age 2 s depois do ÚLTIMO evento.
+local reconexoes = 0
+hl.on("monitor.added", function()
+    reconexoes = reconexoes + 1
+    local minha = reconexoes
+    hl.timer(function()
+        if minha == reconexoes then
+            hl.exec_cmd("pkill -x waybar; sleep 0.5; waybar")
+        end
+    end, { timeout = 2000, type = "oneshot" })
+end)
