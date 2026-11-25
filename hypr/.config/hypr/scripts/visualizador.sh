@@ -27,7 +27,7 @@ while true; do
     cava -p "$config" | awk -v marcador="$economia" '
         BEGIN { split("▁▂▃▄▅▆▇█", blocos, ""); quadros = 0 }
         {
-            # a cada ~2 s, confere se o modo economia foi ligado
+            # a cada ~3 s, confere se o modo economia foi ligado
             if (++quadros % 60 == 0 && system("test -e \"" marcador "\"") == 0) exit
 
             gsub(/;$/, "")
