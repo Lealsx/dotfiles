@@ -112,6 +112,7 @@ Depois é só sair da sessão e escolher **Hyprland (uwsm-managed)** na tela de 
 | Atalho | Ação |
 |---|---|
 | `Super + Espaço` | Trocar teclado US ⇄ BR |
+| `Super + P` (ou o botão 🖥 da barra) | **Posição das telas**: monitor em cima/embaixo/à esquerda/à direita, espelhar, só o notebook ou só o monitor (a escolha fica salva) |
 | `Super + L` | Bloquear a tela |
 | `Super + Esc` | Menu de energia (bloquear, suspender, sair, reiniciar, desligar) |
 | `Super + Shift + V` | Histórico do copiar/colar |

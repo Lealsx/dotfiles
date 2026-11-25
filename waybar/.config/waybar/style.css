@@ -26,7 +26,7 @@ window#waybar {
 
 /* Cada módulo vira uma "pílula" arredondada */
 #custom-menu, #workspaces, #window, #clock, #custom-player, #language, #pulseaudio,
-#backlight, #network, #custom-economia, #battery, #tray, #custom-energia {
+#backlight, #network, #custom-economia, #custom-telas, #battery, #tray, #custom-energia {
     background: alpha(@fundo, 0.85);
     border-radius: 10px;
     padding: 0 12px;
@@ -35,8 +35,8 @@ window#waybar {
 /* Quando não há janela aberta, esconde a pílula do título */
 window#waybar.empty #window { background: transparent; }
 
-/* Pílulas só de ícone (Arch, economia, desligar): todas com a mesma largura */
-#custom-menu, #custom-economia, #custom-energia {
+/* Pílulas só de ícone (Arch, economia, telas, desligar): todas com a mesma largura */
+#custom-menu, #custom-economia, #custom-telas, #custom-energia {
     min-width: 20px;
     padding: 0 14px;
 }
@@ -108,6 +108,9 @@ window#waybar.empty #window { background: transparent; }
 #network    { color: @verde; }
 #network.disconnected { color: @vermelho; }
 
+/* Botão de telas */
+#custom-telas { color: @destaque; }
+
 /* Modo economia: folha verde quando ligado, apagada quando desligado */
 #custom-economia.ligado    { color: @verde; }
 #custom-economia.desligado { color: @apagado; }
@@ -150,13 +153,13 @@ tooltip label { color: @texto; }
 
 /* Todos os módulos: ao passar o mouse, clareiam e o texto acende */
 #custom-menu, #clock, #custom-player, #language, #pulseaudio, #backlight,
-#network, #custom-economia, #battery, #custom-energia,
+#network, #custom-economia, #custom-telas, #battery, #custom-energia,
 #custom-spotify-anterior, #custom-spotify-play, #custom-spotify-proxima {
     transition: all 0.25s ease;
 }
 #clock:hover, #custom-player:hover, #language:hover,
 #pulseaudio:hover, #backlight:hover, #network:hover,
-#custom-economia:hover, #battery:hover {
+#custom-economia:hover, #custom-telas:hover, #battery:hover {
     background: @fundo2;
     color: @texto;
 }

@@ -63,6 +63,7 @@ atalho(mod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:rascunho
 
 -- ---------- Sistema ----------
 atalho(mod .. " + SPACE",     exec("hyprctl switchxkblayout all next"), "Sistema: trocar teclado US ⇄ BR")
+atalho(mod .. " + P",         exec(scripts .. "/telas.sh"),               "Sistema: posição das telas (em cima, ao lado, espelhar...)")
 atalho(mod .. " + L",         exec(apps.bloqueio),                      "Sistema: bloquear a tela")
 atalho(mod .. " + ESCAPE",    exec(scripts .. "/menu-energia.sh"),      "Sistema: menu de energia (sair, reiniciar, desligar)")
 atalho(mod .. " + SHIFT + V", exec(scripts .. "/historico-copia.sh"),   "Sistema: histórico do copiar/colar")

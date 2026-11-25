@@ -17,7 +17,7 @@
 
     "modules-left":   ["custom/menu", "hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock", "group/spotify", "custom/player"],
-    "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "custom/economia", "battery", "tray", "custom/energia"],
+    "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "custom/economia", "custom/telas", "battery", "tray", "custom/energia"],
 
     // Botão que abre o menu de aplicativos
     "custom/menu": {
@@ -161,6 +161,16 @@
         "format-disconnected": "󰖪 sem rede",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
         "on-click": "nm-connection-editor"
+    },
+
+    // Botão de telas: clique abre o menu de posição (em cima, ao lado,
+    // espelhar, só uma tela...). O mesmo que Super + P.
+    "custom/telas": {
+        "exec": "~/.config/hypr/scripts/telas.sh status",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 9,
+        "on-click": "~/.config/hypr/scripts/telas.sh"
     },
 
     // Folha = modo economia de bateria. Verde = ligado. Clique liga/desliga.
