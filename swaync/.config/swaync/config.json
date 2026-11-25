@@ -1,0 +1,114 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+
+  "positionX": "right",
+  "positionY": "top",
+  "layer": "overlay",
+  "control-center-layer": "overlay",
+  "layer-shell": true,
+  "layer-shell-cover-screen": true,
+  "cssPriority": "user",
+
+  "control-center-margin-top": 8,
+  "control-center-margin-right": 8,
+  "control-center-margin-bottom": 8,
+  "control-center-width": 420,
+  "fit-to-screen": true,
+
+  "notification-window-width": 380,
+  "notification-icon-size": 56,
+  "notification-body-image-height": 100,
+  "notification-body-image-width": 200,
+  "image-visibility": "when-available",
+  "notification-grouping": true,
+  "relative-timestamps": true,
+
+  "timeout": 6,
+  "timeout-low": 4,
+  "timeout-critical": 0,
+  "transition-time": 250,
+  "hide-on-clear": false,
+  "hide-on-action": true,
+  "keyboard-shortcuts": true,
+  "script-fail-notify": true,
+  "text-empty": "Nenhuma notificação",
+
+  "notification-visibility": {
+    "tocando-agora": {
+      "state": "transient",
+      "app-name": "Tocando agora"
+    }
+  },
+
+  "widgets": ["title", "mpris", "volume", "backlight", "buttons-grid", "dnd", "notifications"],
+
+  "widget-config": {
+    "title": {
+      "text": "Central",
+      "clear-all-button": true,
+      "button-text": "Limpar"
+    },
+    "dnd": {
+      "text": "Não perturbe"
+    },
+    "mpris": {
+      "image-size": 96,
+      "show-album-art": "always",
+      "autohide": true,
+      "blacklist": []
+    },
+    "volume": {
+      "label": "",
+      "show-per-app": false
+    },
+    "backlight": {
+      "label": "",
+      "device": "intel_backlight"
+    },
+    "buttons-grid": {
+      "buttons-per-row": 4,
+      "actions": [
+        {
+          "label": "",
+          "type": "toggle",
+          "command": "sh -c '[ \"$SWAYNC_TOGGLE_STATE\" = true ] && nmcli radio wifi on || nmcli radio wifi off'",
+          "update-command": "sh -c '[ \"$(nmcli radio wifi)\" = enabled ] && echo true || echo false'"
+        },
+        {
+          "label": "",
+          "type": "toggle",
+          "command": "sh -c '[ \"$SWAYNC_TOGGLE_STATE\" = true ] && bluetoothctl power on || bluetoothctl power off'",
+          "update-command": "sh -c 'bluetoothctl show | grep -q \"Powered: yes\" && echo true || echo false'"
+        },
+        {
+          "label": "",
+          "type": "toggle",
+          "command": "sh -c '~/.config/hypr/scripts/modo-economia.sh'",
+          "update-command": "sh -c '[ -e ~/.cache/hypr-economia ] && echo true || echo false'"
+        },
+        {
+          "label": "",
+          "type": "toggle",
+          "command": "sh -c '~/.config/hypr/scripts/musica-tema.sh alternar'",
+          "update-command": "sh -c '[ -e ~/.cache/musica/desligado ] && echo false || echo true'"
+        },
+        {
+          "label": "",
+          "command": "sh -c '~/.config/hypr/scripts/telas.sh'"
+        },
+        {
+          "label": "",
+          "command": "hyprctl switchxkblayout all next"
+        },
+        {
+          "label": "",
+          "command": "sh -c 'pidof hyprlock || hyprlock'"
+        },
+        {
+          "label": "",
+          "command": "sh -c '~/.config/hypr/scripts/menu-energia.sh'"
+        }
+      ]
+    }
+  }
+}

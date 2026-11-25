@@ -26,6 +26,6 @@ output_path = "~/.config/rofi/cores.rasi"
 input_path  = "~/.config/matugen/modelos/cores.conf"
 output_path = "~/.config/kitty/cores.conf"
 
-[templates.mako]
-input_path  = "~/.config/matugen/modelos/mako"
-output_path = "~/.config/mako/cores"
+[templates.swaync]
+input_path  = "~/.config/matugen/modelos/swaync.css"
+output_path = "~/.config/swaync/cores.css"

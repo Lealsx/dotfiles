@@ -1,0 +1,25 @@
+/* Cores padrão (tema Muzan) da Central de controle e das notificações.
+   O tema musical gera cores.css com as cores do álbum. */
+:root {
+  --fundo: #0a0608;
+  --fundo2: #1e0f13;
+  --texto: #f5ecee;
+  --apagado: #7a6a6e;
+  --destaque: #e3123b;
+  --destaque2: #ff7b5c;
+  --sobre-destaque: #ffffff;
+
+  /* variáveis do tema padrão do swaync */
+  --cc-bg: #0a0608eb;
+  --noti-bg: 10, 6, 8;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: #1e0f13;
+  --noti-bg-hover: #2a161b;
+  --noti-bg-focus: #1e0f13;
+  --noti-close-bg: #2a161b;
+  --noti-close-bg-hover: #e3123b;
+  --noti-border-color: #e3123b66;
+  --text-color: #f5ecee;
+  --text-color-disabled: #7a6a6e;
+  --bg-selected: #e3123b;
+}

@@ -12,4 +12,4 @@ hypr/.config/hypr/cores.lua
 waybar/.config/waybar/cores.css
 rofi/.config/rofi/cores.rasi
 kitty/.config/kitty/cores.conf
-mako/.config/mako/cores
+swaync/.config/swaync/cores.css

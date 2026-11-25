@@ -1,0 +1,127 @@
+/* =============================================================
+   SwayNC — Central de controle e notificações
+   =============================================================
+   Parte do tema padrão do swaync e só muda o que precisa.
+   Cores: cores.css (gerado pelo tema musical a partir do álbum) ou,
+   sem álbum, o mesmo conteúdo de cores-muzan.css.
+   Abrir/fechar: Super + N ou o botão da barra.
+   ============================================================= */
+
+@import url("file:///etc/xdg/swaync/style.css");
+@import url("cores.css");
+
+* {
+  font-family: "JetBrainsMono Nerd Font Propo", sans-serif;
+}
+
+/* ---------- Painel ---------- */
+.control-center {
+  background: var(--cc-bg);
+  border: 2px solid var(--destaque);
+  border-radius: 16px;
+  color: var(--texto);
+}
+
+/* Título "Central" + botão Limpar */
+.widget-title > label {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--destaque);
+}
+.widget-title > button {
+  background: var(--fundo2);
+  color: var(--texto);
+  border-radius: 10px;
+  border: none;
+}
+.widget-title > button:hover {
+  background: var(--destaque);
+  color: var(--sobre-destaque);
+}
+
+/* ---------- Player (Spotify) ---------- */
+.widget-mpris .widget-mpris-player {
+  border-radius: 14px;
+  border: 1px solid var(--noti-border-color);
+}
+
+/* ---------- Volume e brilho ---------- */
+.widget-volume, .widget-backlight {
+  background: var(--fundo2);
+  border-radius: 12px;
+  padding: 6px 12px;
+  margin: 4px 8px;
+}
+.widget-volume label, .widget-backlight label {
+  color: var(--destaque);
+  font-size: 1.1rem;
+  min-width: 26px;
+}
+scale trough {
+  background: var(--fundo);
+  border-radius: 8px;
+  min-height: 8px;
+}
+scale highlight {
+  background: linear-gradient(90deg, var(--destaque), var(--destaque2));
+  border-radius: 8px;
+}
+scale slider {
+  background: var(--texto);
+  min-width: 14px;
+  min-height: 14px;
+  border-radius: 50%;
+}
+
+/* ---------- Grade de botões ---------- */
+.widget-buttons-grid {
+  padding: 6px 4px;
+}
+.widget-buttons-grid flowboxchild > button {
+  background: var(--fundo2);
+  color: var(--texto);
+  border-radius: 14px;
+  min-height: 48px;
+  font-size: 1.2rem;
+  border: none;
+  transition: all 0.2s ease;
+}
+.widget-buttons-grid flowboxchild > button:hover {
+  background: var(--noti-bg-hover);
+  color: var(--destaque);
+}
+/* botão ligado (Wi-Fi, Bluetooth, economia, tema musical) */
+.widget-buttons-grid flowboxchild > button.toggle:checked {
+  background: var(--destaque);
+  color: var(--sobre-destaque);
+}
+
+/* ---------- Não perturbe ---------- */
+.widget-dnd {
+  margin: 4px 8px;
+}
+.widget-dnd switch:checked {
+  background: var(--destaque);
+}
+
+/* ---------- Notificações ---------- */
+.notification-row .notification-background .notification {
+  border: 1px solid var(--noti-border-color);
+  border-radius: 12px;
+}
+.notification-row .notification-background .notification.critical {
+  border-color: var(--destaque2);
+}
+.notification .summary {
+  color: var(--texto);
+  font-weight: bold;
+}
+.notification .body {
+  color: var(--apagado);
+}
+
+/* Cartão "Tocando agora" (troca de música): borda na cor do álbum e capa maior */
+.notification-row .notification-background .notification.tocando-agora,
+.floating-notifications .notification-row .notification {
+  border-color: var(--destaque);
+}

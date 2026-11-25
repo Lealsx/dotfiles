@@ -1,0 +1,23 @@
+/* Gerado pelo tema musical (matugen) a partir da capa do álbum. Não edite. */
+:root {
+  --fundo: {{colors.surface.default.hex}};
+  --fundo2: {{colors.surface_container_high.default.hex}};
+  --texto: {{colors.on_surface.default.hex}};
+  --apagado: {{colors.outline.default.hex}};
+  --destaque: {{colors.primary.default.hex}};
+  --destaque2: {{colors.secondary.default.hex}};
+  --sobre-destaque: {{colors.on_primary.default.hex}};
+
+  --cc-bg: {{colors.surface.default.hex}}eb;
+  --noti-bg: {{colors.surface.default.red}}, {{colors.surface.default.green}}, {{colors.surface.default.blue}};
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: {{colors.surface_container_high.default.hex}};
+  --noti-bg-hover: {{colors.surface_container_highest.default.hex}};
+  --noti-bg-focus: {{colors.surface_container_high.default.hex}};
+  --noti-close-bg: {{colors.surface_container_highest.default.hex}};
+  --noti-close-bg-hover: {{colors.primary.default.hex}};
+  --noti-border-color: {{colors.primary.default.hex}}66;
+  --text-color: {{colors.on_surface.default.hex}};
+  --text-color-disabled: {{colors.outline.default.hex}};
+  --bg-selected: {{colors.primary.default.hex}};
+}
