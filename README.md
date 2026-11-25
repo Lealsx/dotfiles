@@ -17,6 +17,7 @@ Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacion
 | `kitty/` | [kitty](https://sw.kovidgoyal.net/kitty/) | Terminal |
 | `swappy/` | [swappy](https://github.com/jtheoof/swappy) | Editor de capturas de tela |
 | `icones/` | — | Cursor padrão (`~/.icons/default`) para apps que não seguem o tema |
+| `matugen/` | [matugen](https://github.com/InioX/matugen) | Modelos de cores do tema musical |
 | `sistema/sddm/` | [SDDM](https://github.com/sddm/sddm) + [SilentSDDM](https://github.com/uiriansan/SilentSDDM) | Tela de login no tema Muzan (fora do stow, ver abaixo) |
 
 Cada pasta segue o formato do [GNU Stow](https://www.gnu.org/software/stow/):
@@ -154,7 +155,26 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 As cores ficam em `aparencia.lua` (bordas e sombra), `waybar/style.css` (`@define-color`),
 `rofi/config.rasi`, `mako/config`, `kitty.conf` e `hyprlock.conf`.
 
-## Papel de parede
+## Tema musical (Spotify) 🎵
+
+O sistema muda com o **álbum que está tocando no Spotify** (`hypr/scripts/musica-tema.sh`):
+
+1. baixa a **capa do álbum** (o Spotify informa a URL pelo `playerctl`);
+2. `musica-wallpaper.py` monta o **papel de parede animado**: a capa no centro com um
+   brilho na cor do álbum, a mesma capa desfocada no fundo e um **disco de vinil girando**
+   atrás dela (desenhado com cairo, juntado pelo ffmpeg num vídeo de 4 s em loop);
+3. o [matugen](https://github.com/InioX/matugen) tira as **cores** da capa (Material You)
+   e preenche os modelos em `matugen/.config/matugen/modelos/`;
+4. recarrega as **bordas** (Hyprland), a **barra**, o **terminal** e as **notificações**;
+   o **menu** pega as cores novas ao abrir.
+
+- Só refaz quando muda o **álbum** (mesma capa = nada acontece).
+- Spotify fechado/parado → **fica o último álbum**.
+- `Super + Shift + W` liga/desliga; desligado volta o **tema Muzan**.
+- Cada app lê um arquivo `cores` (gerado, fora do Git); o padrão Muzan fica em `cores-muzan.*`.
+- O vinil só gira com a área de trabalho **vazia** (pausa inteligente, por desempenho).
+
+
 
 Coloque o arquivo em `~/Imagens/wallpapers/` (fica **fora do repositório**, personagens
 têm direitos autorais) com o nome:
@@ -204,9 +224,10 @@ Estilo "Muzan": dramático e sinistro, sem molas elásticas.
   com brilho vermelho em volta
 - **Áreas de trabalho**: deslizam com fade, como névoa; o rascunho (`Super + S`) desce de cima
 - **Menu e notificações**: surgem com fade suave; notificações deslizam pela direita
-- **Barra**: a área ativa "cresce" com um degradê que flui, barrinhas que dançam no ritmo da música
-  ao lado do Spotify (cava), o Spotify "pulsa" enquanto toca, os módulos acendem ao passar o mouse,
-  a bateria pisca quando está crítica e "respira" ao carregar
+- **Barra**: a área ativa "cresce" com um degradê, barrinhas que dançam no ritmo da música
+  ao lado do Spotify (cava, 20 quadros/s), os módulos acendem ao passar o mouse e a bateria
+  pisca quando está crítica. Sem animações infinitas e sem desfoque atrás da barra: na placa
+  Intel UHD elas faziam a barra se redesenhar sem parar (~20% + ~25% da placa)
 
 Tudo fica em `hypr/.config/hypr/aparencia.lua` e `waybar/.config/waybar/style.css`.
 O modo economia (`Super + Shift + B`) desliga todas as animações.

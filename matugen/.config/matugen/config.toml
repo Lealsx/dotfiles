@@ -1,0 +1,29 @@
+# =============================================================
+#  matugen — gera as cores do sistema a partir da capa do álbum
+# =============================================================
+#  Chamado pelo hypr/scripts/musica-tema.sh. Cada [templates.X] pega um
+#  modelo de modelos/ e escreve o arquivo de cores que o app lê.
+#  Nomes das cores (Material You): primary = destaque, tertiary = segundo
+#  destaque, surface = fundo, on_surface = texto, outline = apagado.
+# =============================================================
+[config]
+
+[templates.hyprland]
+input_path  = "~/.config/matugen/modelos/cores.lua"
+output_path = "~/.config/hypr/cores.lua"
+
+[templates.waybar]
+input_path  = "~/.config/matugen/modelos/cores.css"
+output_path = "~/.config/waybar/cores.css"
+
+[templates.rofi]
+input_path  = "~/.config/matugen/modelos/cores.rasi"
+output_path = "~/.config/rofi/cores.rasi"
+
+[templates.kitty]
+input_path  = "~/.config/matugen/modelos/cores.conf"
+output_path = "~/.config/kitty/cores.conf"
+
+[templates.mako]
+input_path  = "~/.config/matugen/modelos/mako"
+output_path = "~/.config/mako/cores"

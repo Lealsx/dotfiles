@@ -1,0 +1,7 @@
+/* Cores padrão (tema Muzan). O tema musical gera cores.css com as cores do álbum. */
+@define-color fundo     #0a0608;
+@define-color fundo2    #1e0f13;
+@define-color texto     #f5ecee;
+@define-color apagado   #7a6a6e;
+@define-color destaque  #e3123b;
+@define-color destaque2 #ff7b5c;

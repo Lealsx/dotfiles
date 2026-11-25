@@ -6,6 +6,7 @@
 #    wallpaper.jpg (ou .png / .webp)  → IMAGEM parada (hyprpaper) — leve
 #    wallpaper.mp4                    → VÍDEO em loop (mpvpaper)
 #  Se existirem os dois, a IMAGEM ganha (o vídeo pesa na placa de vídeo).
+#  Tema musical ligado (musica-tema.sh): o papel de parede é o do álbum.
 #
 #  Vídeo: só toca quando alguma tela está com a área de trabalho vazia
 #  (efeitos.lua + wallpaper-pausa.sh) e vira imagem no modo economia.
@@ -28,6 +29,15 @@ for ext in jpg jpeg png webp; do
     [ -f "$PASTA/wallpaper.$ext" ] && { IMAGEM="$PASTA/wallpaper.$ext"; break; }
 done
 
+# Tema musical ligado e com um álbum já gerado → o papel de parede é o do álbum
+# (capa + vinil girando), no lugar da imagem/vídeo acima
+MUSICA="$HOME/.cache/musica"
+if [ ! -e "$MUSICA/desligado" ] && [ -f "$MUSICA/album/wallpaper.mp4" ]; then
+    IMAGEM=""
+    VIDEO="$MUSICA/album/wallpaper.mp4"
+    QUADRO="$MUSICA/album/wallpaper.png"
+fi
+
 # Para o papel de parede que estiver rodando
 pkill -x mpvpaper
 pkill -x hyprpaper
@@ -38,6 +48,9 @@ if [ -z "$IMAGEM" ] && [ -f "$VIDEO" ] && [ ! -e "$ECONOMIA" ] && command -v mpv
     # hwdec=auto-safe: decodifica pela placa de vídeo | panscan=1.0: preenche a tela
     # input-ipc-server: "socket" para pausar/tocar de fora (wallpaper-pausa.sh)
     mpvpaper -f -p -o "no-audio loop-file=inf hwdec=auto-safe panscan=1.0 input-ipc-server=$SOCKET" ALL "$VIDEO"
+    # o vídeo novo começa tocando: já pausa se houver janelas na frente
+    for _ in 1 2 3 4 5 6 7 8 9 10; do [ -S "$SOCKET" ] && break; sleep 0.3; done
+    "$(dirname "$0")/wallpaper-pausa.sh" auto
     exit 0
 fi
 

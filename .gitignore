@@ -6,3 +6,10 @@
 *~
 .vscode/
 .idea/
+
+# Cores geradas pelo tema musical (mudam a cada álbum; o padrão é cores-muzan.*)
+hypr/.config/hypr/cores.lua
+waybar/.config/waybar/cores.css
+rofi/.config/rofi/cores.rasi
+kitty/.config/kitty/cores.conf
+mako/.config/mako/cores

@@ -68,6 +68,7 @@ atalho(mod .. " + ESCAPE",    exec(scripts .. "/menu-energia.sh"),      "Sistema
 atalho(mod .. " + SHIFT + V", exec(scripts .. "/historico-copia.sh"),   "Sistema: histórico do copiar/colar")
 atalho(mod .. " + N",         exec("makoctl dismiss --all"),            "Sistema: limpar notificações")
 atalho(mod .. " + SHIFT + B", exec(scripts .. "/modo-economia.sh"),     "Sistema: modo economia de bateria (liga/desliga)")
+atalho(mod .. " + SHIFT + W", exec(scripts .. "/musica-tema.sh alternar"), "Sistema: tema musical — cores e fundo do álbum (liga/desliga)")
 
 -- ---------- Captura de tela ----------
 atalho("Print",               exec(scripts .. "/print.sh area"), "Print: selecionar área e editar")

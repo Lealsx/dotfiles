@@ -1,0 +1,9 @@
+/* Gerado pelo tema musical (matugen) a partir da capa do álbum. Não edite. */
+* {
+    fundo:          {{colors.surface.default.hex}}f2;
+    fundo2:         {{colors.surface_container_high.default.hex}};
+    texto:          {{colors.on_surface.default.hex}};
+    apagado:        {{colors.outline.default.hex}};
+    destaque:       {{colors.primary.default.hex}};
+    sobre-destaque: {{colors.on_primary.default.hex}};
+}

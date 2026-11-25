@@ -49,5 +49,9 @@ nautilus
 spotify-launcher
 cava
 
+# Tema musical: cores tiradas da capa do álbum
+matugen
+python-cairo
+
 # Para instalar estes dotfiles
 stow

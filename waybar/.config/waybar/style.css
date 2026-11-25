@@ -2,12 +2,9 @@
    Waybar — visual (tema Muzan (Demon Slayer): preto, carmesim e brasa)
    ============================================================= */
 
-@define-color fundo     #0a0608;
-@define-color fundo2    #1e0f13;
-@define-color texto     #f5ecee;
-@define-color apagado   #7a6a6e;
-@define-color destaque  #e3123b;   /* carmesim */
-@define-color destaque2 #ff7b5c;   /* brasa (brilho do olho) */
+/* Cores principais: as do álbum tocando (cores.css, gerado pelo tema musical)
+   ou as do Muzan (cores-muzan.css) quando não há álbum */
+@import "cores.css";
 @define-color verde     #a6e3a1;
 @define-color amarelo   #f9e2af;
 @define-color vermelho  #f38ba8;
@@ -45,16 +42,11 @@ window#waybar.empty #window { background: transparent; }
 }
 #custom-menu    { color: @destaque; font-size: 16px; }
 
-/* Ícone do Arch: troca de cor sem parar (carmesim → brasa → branco) com brilho
-   pulsando; ao passar o mouse, cresce */
-@keyframes arco-iris {
-    0%   { color: @destaque;  text-shadow: 0 0 2px alpha(@destaque, 0.4); }
-    33%  { color: @destaque2; text-shadow: 0 0 8px alpha(@destaque2, 0.9); }
-    66%  { color: @texto; text-shadow: 0 0 2px alpha(@texto, 0.4); }
-    100% { color: @destaque;  text-shadow: 0 0 8px alpha(@destaque, 0.9); }
-}
+/* Ícone do Arch: cor de destaque; ao passar o mouse, brilha (sem animação
+   infinita: ela fazia a barra se redesenhar sem parar e pesava na placa) */
 #custom-menu {
-    animation: arco-iris 6s ease-in-out infinite;
+    text-shadow: 0 0 4px alpha(@destaque, 0.6);
+    transition: all 0.25s ease;
 }
 /* Ao passar o mouse: o brilho fica forte e o fundo clareia
    (sem mudar o tamanho, para não empurrar o resto da barra) */
@@ -138,12 +130,6 @@ tooltip label { color: @texto; }
     /* degradê carmesim → brasa → carmesim, 3x mais largo que o botão... */
     background-image: linear-gradient(90deg, @destaque, @destaque2, @destaque, @destaque2);
     background-size: 300% 100%;
-    /* ...e deslizando de um lado para o outro (igual à borda das janelas) */
-    animation: fluir 4s linear infinite;
-}
-@keyframes fluir {
-    from { background-position: 0% 0%; }
-    to   { background-position: 100% 0%; }
 }
 /* Área visível no OUTRO monitor (sem foco): destaque leve, sem crescer */
 #workspaces button.visible:not(.active) {
@@ -173,13 +159,6 @@ tooltip label { color: @texto; }
     animation: piscar 0.8s ease-in-out infinite alternate;
 }
 
-/* Carregando: o verde "respira" devagar */
-@keyframes respirar {
-    to { color: @texto; }
-}
-#battery.charging {
-    animation: respirar 2s ease-in-out infinite alternate;
-}
 
 /* Visualizador de música: barrinhas verdes (cor do Spotify) */
 #custom-visualizador {
@@ -189,11 +168,4 @@ tooltip label { color: @texto; }
     letter-spacing: 1px;
 }
 
-/* Spotify tocando: o verde "pulsa" de leve */
-@keyframes pulsar {
-    to { color: alpha(@spotify, 0.6); }
-}
-#custom-spotify.tocando {
-    animation: pulsar 1.2s ease-in-out infinite alternate;
-}
 

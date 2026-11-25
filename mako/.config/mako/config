@@ -13,11 +13,9 @@ border-radius=12
 max-icon-size=48
 default-timeout=6000
 
-background-color=#0a0608f2
-text-color=#f5ecee
-border-color=#e3123b
-progress-color=over #1e0f13
+# Cores: as do álbum tocando (cores, gerado pelo tema musical) ou as do Muzan
+# (cores-muzan) quando não há álbum
+include=~/.config/mako/cores
 
 [urgency=high]
-border-color=#ff7b5c
 default-timeout=0

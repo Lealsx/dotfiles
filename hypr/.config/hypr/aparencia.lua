@@ -6,6 +6,12 @@
 --    cinza    #2e1a1f   (borda das janelas sem foco)
 -- =============================================================
 
+-- Cores: as do álbum tocando (cores.lua, gerado pelo tema musical) ou, se não
+-- houver, as do Muzan (cores-muzan.lua). Variável global, usada no efeitos.lua.
+local pasta = os.getenv("HOME") .. "/.config/hypr/"
+local ok, geradas = pcall(dofile, pasta .. "cores.lua")
+cores = (ok and type(geradas) == "table") and geradas or dofile(pasta .. "cores-muzan.lua")
+
 hl.config({
     general = {
         gaps_in     = 4,   -- espaço entre janelas
@@ -15,8 +21,9 @@ hl.config({
         col = {
             -- Borda da janela com foco: degradê carmesim → brasa (o brilho do olho do Muzan)
             -- (passa por um vermelho bem escuro: ao girar, parece sangue escorrendo)
-            active_border   = { colors = { "rgba(e3123bee)", "rgba(ff7b5cee)", "rgba(5c0a1aee)" }, angle = 45 },
-            inactive_border = "rgba(2e1a1faa)",
+            active_border   = { colors = { "rgba(" .. cores.destaque .. "ee)", "rgba(" .. cores.destaque2 .. "ee)",
+                                           "rgba(" .. cores.escuro .. "ee)" }, angle = 45 },
+            inactive_border = "rgba(" .. cores.inativo .. "aa)",
         },
 
         resize_on_border = true,      -- redimensionar arrastando a borda
@@ -33,7 +40,7 @@ hl.config({
             enabled      = true,
             range          = 14,
             render_power   = 3,
-            color          = 0x66e3123b, -- janela com foco: brilho vermelho em volta
+            color          = tonumber("66" .. cores.destaque, 16), -- janela com foco: brilho na cor de destaque
             color_inactive = 0xaa000000, -- outras janelas: sombra preta comum
         },
 
@@ -120,6 +127,8 @@ hl.layer_rule({ name = "anim-rofi",         match = { namespace = "^rofi$" },   
 hl.layer_rule({ name = "anim-notificacoes", match = { namespace = "^notifications$" }, animation = "slide right" })
 hl.layer_rule({ name = "anim-bloqueio",     match = { namespace = "^hyprlock$" },      animation = "fade" })
 
--- Desfoque atrás da barra e do menu (os fundos deles são semitransparentes)
-hl.layer_rule({ name = "blur-waybar", match = { namespace = "^waybar$" }, blur = true, ignore_alpha = 0.3 })
+-- Desfoque atrás do menu (o fundo dele é semitransparente).
+-- A BARRA ficou sem desfoque: com música tocando ela se redesenha 20x por
+-- segundo (visualizador) e o desfoque era recalculado toda vez — pesava ~25%
+-- da placa de vídeo, e as pílulas são quase opacas (o desfoque mal aparecia).
 hl.layer_rule({ name = "blur-rofi",   match = { namespace = "^rofi$" },   blur = true, ignore_alpha = 0.3 })

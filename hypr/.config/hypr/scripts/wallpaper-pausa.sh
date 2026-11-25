@@ -2,18 +2,31 @@
 # =============================================================
 #  wallpaper-pausa.sh — pausa ou toca o vídeo do papel de parede
 # =============================================================
+#    wallpaper-pausa.sh auto   → decide sozinho: toca só se alguma tela está
+#                                com a área de trabalho VAZIA (senão pausa)
 #    wallpaper-pausa.sh pausar | tocar
-#  Chamado pelo efeitos.lua: toca só quando alguma tela está com a área
-#  de trabalho vazia (economiza muito a placa de vídeo).
+#  Chamado pelo efeitos.lua (a cada abrir/fechar/mover janela e troca de área)
+#  e pelo wallpaper.sh (logo depois de trocar o vídeo do fundo).
 #  Fala com o mpv pelo "socket" criado no wallpaper.sh.
 # =============================================================
 SOCKET="$XDG_RUNTIME_DIR/mpvpaper.sock"
 [ -S "$SOCKET" ] || exit 0          # vídeo não está rodando (ex.: modo economia)
 
-case "$1" in
+modo="$1"
+if [ "$modo" = "auto" ]; then
+    # áreas de trabalho visíveis (uma por tela) e quantas janelas cada uma tem
+    vazia=$(hyprctl -j monitors | python3 -c '
+import sys, json, subprocess
+areas = {w["id"]: w["windows"] for w in json.loads(subprocess.run(
+    ["hyprctl", "-j", "workspaces"], capture_output=True, text=True).stdout)}
+print(any(areas.get(m["activeWorkspace"]["id"], 0) == 0 for m in json.load(sys.stdin)))')
+    [ "$vazia" = "True" ] && modo=tocar || modo=pausar
+fi
+
+case "$modo" in
     pausar) valor=true ;;
     tocar)  valor=false ;;
-    *) echo "uso: $0 pausar|tocar"; exit 1 ;;
+    *) echo "uso: $0 auto|pausar|tocar"; exit 1 ;;
 esac
 
 python3 -c '

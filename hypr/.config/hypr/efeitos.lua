@@ -33,9 +33,9 @@ hl.on("window.open", function(janela)
     if not janela or not janela.address then return end
     local endereco = janela.address
 
-    cor_da_borda(endereco, "rgba(ffd9c7ff) rgba(ff7b5cff) 45deg")   -- acende
+    cor_da_borda(endereco, "rgba(" .. cores.claro .. "ff) rgba(" .. cores.destaque2 .. "ff) 45deg")   -- acende
     hl.timer(function()
-        cor_da_borda(endereco, "rgba(ff7b5cff) rgba(e3123bff) 45deg") -- esfria
+        cor_da_borda(endereco, "rgba(" .. cores.destaque2 .. "ff) rgba(" .. cores.destaque .. "ff) 45deg") -- esfria
     end, { timeout = 250, type = "oneshot" })
     hl.timer(function()
         cor_da_borda(endereco, "unset")                              -- volta ao normal
@@ -47,18 +47,9 @@ end)
 -- todas as janelas por cima — na placa Intel UHD isso deixava o uso em 100%.
 -- Com janelas abertas quase não se vê o fundo, então o vídeo pausa; quando
 -- alguma tela fica com a área de trabalho vazia, ele volta a tocar.
--- O comando vai pelo "socket" do mpv (criado pelo wallpaper.sh).
-local video_tocando = nil
-
+-- Quem decide é o wallpaper-pausa.sh (modo "auto"), pelo "socket" do mpv.
 local function atualizar_video()
-    local alguma_vazia = false
-    for _, monitor in ipairs(hl.get_monitors() or {}) do
-        local area = monitor.active_workspace
-        if area and (area.windows or 0) == 0 then alguma_vazia = true end
-    end
-    if alguma_vazia == video_tocando then return end -- nada mudou
-    video_tocando = alguma_vazia
-    hl.exec_cmd(scripts .. "/wallpaper-pausa.sh " .. (alguma_vazia and "tocar" or "pausar"))
+    hl.exec_cmd(scripts .. "/wallpaper-pausa.sh auto")
 end
 
 -- confere logo depois de cada mudança (o pequeno atraso deixa o Hyprland
@@ -71,7 +62,8 @@ for _, evento in ipairs({ "window.open", "window.close", "window.destroy",
                           "monitor.focused", "monitor.added", "monitor.removed" }) do
     hl.on(evento, depois)
 end
--- ao iniciar o Hyprland ou recarregar a configuração, confere uma vez
-hl.on("hyprland.start",  function() hl.timer(atualizar_video, { timeout = 3000, type = "oneshot" }) end)
-hl.on("config.reloaded", function() hl.timer(atualizar_video, { timeout = 1500, type = "oneshot" }) end)
+-- ao iniciar o Hyprland, confere uma vez
+-- (não usar "config.reloaded" aqui: um timer nesse evento derruba o
+--  "Hyprland --verify-config" com falha de segmentação)
+hl.on("hyprland.start", function() hl.timer(atualizar_video, { timeout = 3000, type = "oneshot" }) end)
 
