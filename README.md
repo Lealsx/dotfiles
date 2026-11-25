@@ -163,8 +163,12 @@ O sistema muda com o **álbum que está tocando no Spotify** (`hypr/scripts/musi
 2. `musica-wallpaper.py` monta o **papel de parede animado**: a capa no centro com um
    brilho na cor do álbum, a mesma capa desfocada no fundo e um **disco de vinil girando**
    atrás dela (desenhado com cairo, juntado pelo ffmpeg num vídeo de 4 s em loop);
-3. o [matugen](https://github.com/InioX/matugen) tira as **cores** da capa (Material You)
-   e preenche os modelos em `matugen/.config/matugen/modelos/`;
+   e uma **transição "trocando o disco"** (~2,4 s): a capa e o disco antigos saem pela
+   esquerda, o fundo se mistura, a capa nova entra pela direita e o vinil chega girando
+   rápido e desacelera — tocada uma vez e emendada no loop novo, sem reiniciar o player;
+3. calcula a **cor dominante** da capa (a que mais aparece) e o
+   [matugen](https://github.com/InioX/matugen) gera a paleta a partir dela
+   (`scheme-content`, fiel à cor) e preenche os modelos em `matugen/.config/matugen/modelos/`;
 4. recarrega as **bordas** (Hyprland), a **barra**, o **terminal** e as **notificações**;
    o **menu** pega as cores novas ao abrir.
 

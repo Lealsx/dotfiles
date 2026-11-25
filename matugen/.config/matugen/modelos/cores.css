@@ -4,4 +4,4 @@
 @define-color texto     {{colors.on_surface.default.hex}};
 @define-color apagado   {{colors.outline.default.hex}};
 @define-color destaque  {{colors.primary.default.hex}};
-@define-color destaque2 {{colors.tertiary.default.hex}};
+@define-color destaque2 {{colors.secondary.default.hex}};

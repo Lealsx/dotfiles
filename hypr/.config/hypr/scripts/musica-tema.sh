@@ -7,8 +7,10 @@
 #
 #  Quando o Spotify troca de ÁLBUM (mesma capa = não refaz nada):
 #   1) baixa a capa do álbum
-#   2) musica-wallpaper.py monta o papel de parede animado (capa + vinil girando)
-#   3) matugen tira as cores da capa e escreve os arquivos "cores" de cada app
+#   2) musica-wallpaper.py monta o papel de parede animado (capa + vinil girando),
+#      a transição "trocando o disco" e calcula a COR DOMINANTE da capa
+#   3) matugen gera as cores do sistema a partir da cor dominante e escreve os
+#      arquivos "cores" de cada app
 #      (modelos em ~/.config/matugen/modelos)
 #   4) recarrega Hyprland (bordas), Waybar, kitty e mako, e troca o papel de parede
 #  Spotify fechado/parado → fica o último álbum.
@@ -58,9 +60,49 @@ aplicar_cores() {
 # Gera papel de parede + cores a partir de uma capa já baixada ($CACHE/capa.png)
 gerar() {
     rm -rf "$ALBUM.novo"
-    "$SCRIPTS/musica-wallpaper.py" "$CACHE/capa.png" "$ALBUM.novo" >/dev/null || return 1
-    rm -rf "$ALBUM" && mv "$ALBUM.novo" "$ALBUM"
-    matugen image "$CACHE/capa.png" -m dark -t scheme-vibrant --prefer saturation -q
+    # o gerador devolve a COR DOMINANTE da capa (ex.: #a86668)
+    local cor
+    cor=$("$SCRIPTS/musica-wallpaper.py" "$CACHE/capa.png" "$ALBUM.novo") || return 1
+    echo "$cor" > "$ALBUM.novo/cor"
+    # transição "trocando o disco" do álbum antigo para o novo (se houver antigo)
+    if [ -f "$ALBUM/fundo.png" ]; then
+        "$SCRIPTS/musica-wallpaper.py" --transicao "$ALBUM" "$ALBUM.novo" || true
+    fi
+    # o álbum novo vira o atual (o mpv continua lendo o antigo até a troca)
+    rm -rf "$ALBUM.antigo"
+    [ -d "$ALBUM" ] && mv "$ALBUM" "$ALBUM.antigo"
+    mv "$ALBUM.novo" "$ALBUM"
+    cores_do_album "$cor"
+}
+
+# Manda um comando para o mpv do papel de parede (JSON pelo socket)
+mpv_comando() {
+    python3 -c '
+import socket, sys, json, os
+s = socket.socket(socket.AF_UNIX)
+s.connect(os.environ["XDG_RUNTIME_DIR"] + "/mpvpaper.sock")
+s.sendall((json.dumps({"command": sys.argv[1:]}) + "\n").encode())
+s.recv(4096)
+' "$@" 2>/dev/null
+}
+
+# Troca o papel de parede: com o vídeo rodando, toca a transição UMA vez e
+# emenda no loop novo, sem reiniciar o player; senão, reinicia pelo wallpaper.sh
+trocar_fundo() {
+    local socket="$XDG_RUNTIME_DIR/mpvpaper.sock"
+    if [ -S "$socket" ] && pgrep -x mpvpaper >/dev/null && [ -f "$ALBUM/transicao.mp4" ] \
+       && [ ! -e "$HOME/.cache/hypr-economia" ]; then
+        # replace = toca já | append = entra na fila | loop-file só vale para aquele arquivo
+        mpv_comando loadfile "$ALBUM/transicao.mp4" replace -1 "loop-file=no"
+        mpv_comando loadfile "$ALBUM/wallpaper.mp4" append -1 "loop-file=inf"
+    else
+        setsid "$SCRIPTS/wallpaper.sh" >/dev/null 2>&1 9>&-
+    fi
+}
+
+# Cores do sistema a partir da cor dominante ("scheme-content" fica fiel a ela)
+cores_do_album() {
+    matugen color hex "$1" -m dark -t scheme-content -q
 }
 
 novo_album() {
@@ -69,8 +111,8 @@ novo_album() {
     nice -n 15 ffmpeg -v error -y -i "$CACHE/capa.jpg" "$CACHE/capa.png" || return
     gerar || return
     echo "$url" > "$ULTIMO"
-    aplicar_cores
-    setsid "$SCRIPTS/wallpaper.sh" >/dev/null 2>&1 9>&-   # 9>&-: o vídeo não herda a trava (flock)   # troca o vídeo do fundo
+    trocar_fundo      # a transição e as cores novas começam juntas
+    aplicar_cores   # troca o vídeo do fundo
 }
 
 # Cartão "Tocando agora" + pulso na borda da janela ativa
@@ -98,9 +140,7 @@ troca_de_musica() {
 if [ "$1" = "alternar" ]; then
     if [ -e "$DESLIGADO" ]; then
         rm -f "$DESLIGADO"
-        if [ -f "$CACHE/capa.png" ]; then
-            matugen image "$CACHE/capa.png" -m dark -t scheme-vibrant --prefer saturation -q
-        fi
+        [ -f "$ALBUM/cor" ] && cores_do_album "$(cat "$ALBUM/cor")"
         msg="Ligado: papel de parede e cores seguem o álbum do Spotify."
     else
         touch "$DESLIGADO"

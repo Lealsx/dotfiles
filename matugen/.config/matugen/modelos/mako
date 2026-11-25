@@ -5,4 +5,4 @@ border-color={{colors.primary.default.hex}}
 progress-color=over {{colors.surface_container_high.default.hex}}
 
 [urgency=high]
-border-color={{colors.tertiary.default.hex}}
+border-color={{colors.secondary.default.hex}}

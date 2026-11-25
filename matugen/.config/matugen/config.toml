@@ -3,8 +3,10 @@
 # =============================================================
 #  Chamado pelo hypr/scripts/musica-tema.sh. Cada [templates.X] pega um
 #  modelo de modelos/ e escreve o arquivo de cores que o app lê.
-#  Nomes das cores (Material You): primary = destaque, tertiary = segundo
-#  destaque, surface = fundo, on_surface = texto, outline = apagado.
+#  Nomes das cores (Material You): primary = destaque, secondary = segundo
+#  destaque (mesma família de cor), surface = fundo, on_surface = texto,
+#  outline = apagado. A cor de origem é a DOMINANTE da capa (calculada pelo
+#  musica-wallpaper.py), com o esquema "scheme-content", que fica fiel a ela.
 # =============================================================
 [config]
 

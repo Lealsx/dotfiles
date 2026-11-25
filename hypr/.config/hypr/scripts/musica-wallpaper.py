@@ -3,6 +3,7 @@
 #  musica-wallpaper.py — monta o papel de parede animado do álbum
 # =============================================================
 #  Uso: musica-wallpaper.py <capa.png> <pasta-de-saída>
+#       musica-wallpaper.py --transicao <pasta-do-álbum-antigo> <pasta-do-novo>
 #
 #  Desenha (com cairo) as peças do papel de parede e o ffmpeg junta
 #  tudo num vídeo curto em loop:
@@ -11,6 +12,12 @@
 #    frente.png  → a capa pequena com sombra e um brilho na cor do álbum
 #  Saída: wallpaper.mp4 (4 s, 24 quadros/s, loop perfeito) e wallpaper.png
 #  (o primeiro quadro, usado no modo economia).
+#
+#  --transicao: vídeo de ~2,4 s "trocando o disco" (transicao.mp4, na pasta
+#  do álbum novo): o disco e a capa antigos saem deslizando para a esquerda,
+#  o fundo se mistura do antigo para o novo, a capa nova entra pela direita
+#  e o vinil novo chega girando rápido e desacelera. O último quadro é igual
+#  ao primeiro do loop novo, então a troca para o wallpaper.mp4 não "pula".
 # =============================================================
 import cairo
 import math
@@ -28,24 +35,35 @@ DISCO_CY = ALT // 2
 SEGUNDOS, QPS = 4, 24           # uma volta do disco = 4 s
 
 
-def cor_de_destaque(imagem):
-    """Cor mais 'viva' da capa: média dos pixels mais saturados."""
+def cor_dominante(imagem):
+    """Cor que MAIS aparece na capa.
+
+    Agrupa os pixels por tom (matiz), saturação e brilho e pega o grupo mais
+    numeroso. Pixels quase pretos ficam de fora (fundo preto não é "cor").
+    Se a capa quase não tiver cor (preto e branco), usa o grupo mais
+    numeroso mesmo assim — o tema fica em tons de cinza, fiel à capa.
+    """
+    import colorsys
     w, h = imagem.get_width(), imagem.get_height()
-    dados = imagem.get_data()
-    passo = imagem.get_stride()
-    pixels = []
-    for y in range(0, h, 8):
-        for x in range(0, w, 8):
+    dados, passo = imagem.get_data(), imagem.get_stride()
+    grupos_cor, grupos_todos = {}, {}
+    for y in range(0, h, 4):
+        for x in range(0, w, 4):
             b, g, r = dados[y * passo + x * 4: y * passo + x * 4 + 3]
-            mx, mn = max(r, g, b), min(r, g, b)
-            sat = 0 if mx == 0 else (mx - mn) / mx
-            pixels.append((sat * (mx / 255), r, g, b))
-    pixels.sort(reverse=True)
-    topo = pixels[: max(1, len(pixels) // 10)]
-    r = sum(p[1] for p in topo) / len(topo) / 255
-    g = sum(p[2] for p in topo) / len(topo) / 255
-    b = sum(p[3] for p in topo) / len(topo) / 255
-    return r, g, b
+            hh, ss, vv = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+            if vv < 0.12:
+                continue                                  # quase preto
+            chave = (int(hh * 18), int(ss * 4), int(vv * 4))  # 18 tons x 4 x 4
+            for grupos in ((grupos_cor,) if ss > 0.18 else ()) + (grupos_todos,):
+                soma = grupos.setdefault(chave, [0, 0, 0, 0])
+                soma[0] += r; soma[1] += g; soma[2] += b; soma[3] += 1
+    total = sum(v[3] for v in grupos_todos.values()) or 1
+    coloridos = sum(v[3] for v in grupos_cor.values())
+    grupos = grupos_cor if coloridos > total * 0.08 else grupos_todos
+    if not grupos:
+        return (0.5, 0.5, 0.5)
+    r, g, b, n = max(grupos.values(), key=lambda v: v[3])
+    return (r / n / 255, g / n / 255, b / n / 255)
 
 
 def desenhar_capa(ctx, imagem, x, y, lado):
@@ -97,6 +115,8 @@ def cor_viva(cor):
     """Deixa a cor de destaque mais viva (para o brilho aparecer no fundo escuro)."""
     import colorsys
     h, sat, v = colorsys.rgb_to_hsv(*cor)
+    if sat < 0.12:                      # capa sem cor (preto e branco/cinza):
+        return (0.95, 0.95, 0.95)       # brilho branco, em vez de inventar um tom
     return colorsys.hsv_to_rgb(h, max(sat, 0.55), max(v, 0.9))
 
 
@@ -128,11 +148,56 @@ def frente(imagem, cor, saida):
     sup.write_to_png(saida)
 
 
+TRANSICAO = 2.4    # duração da transição (s)
+SAI, ENTRA = 0.9, 1.5   # o antigo sai em 0,9 s; o novo entra em 1,5 s
+
+
+def transicao(antigo, novo):
+    ff = ["nice", "-n", "15", "ffmpeg", "-v", "error", "-y"]
+    x0, y0 = DISCO_CX - DISCO // 2, DISCO_CY - DISCO // 2
+    longe = 1500                       # quanto as peças andam (px)
+    T, V = TRANSICAO, SEGUNDOS
+    # progresso da entrada (0 → 1) e a mesma coisa "desacelerando" (ease-out cúbico)
+    p = f"clip((t-{SAI})/{ENTRA},0,1)"
+    e = f"(1-pow(1-{p},3))"
+    # saída: acelera para a esquerda (ease-in quadrático)
+    saida = f"-{longe}*pow(clip(t/{SAI},0,1),2)"
+    entrada = f"{longe}*(1-{e})"
+    # vinil novo: termina no ângulo 0 (igual ao loop) e chega com 3 voltas extras
+    ang_novo = f"2*PI*(t-{T})/{V}-6*PI*pow(1-{e},2)"
+    entradas = []
+    for arq in (antigo / "fundo.png", novo / "fundo.png", antigo / "vinil.png",
+                antigo / "frente.png", novo / "vinil.png", novo / "frente.png"):
+        entradas += ["-loop", "1", "-framerate", str(QPS), "-t", str(T), "-i", str(arq)]
+    filtro = (
+        # fundo: mistura suave do antigo para o novo
+        f"[0:v][1:v]xfade=transition=fade:duration=1.2:offset=0.3[fundo];"
+        # peças antigas: giram, saem para a esquerda e somem
+        f"[2:v]format=rgba,rotate=2*PI*t/{V}:c=none:ow=iw:oh=ih,"
+        f"fade=t=out:st=0.4:d=0.5:alpha=1[vinil_a];"
+        f"[3:v]format=rgba,fade=t=out:st=0.4:d=0.5:alpha=1[frente_a];"
+        # peças novas: entram pela direita desacelerando; o vinil chega girando rápido
+        f"[4:v]format=rgba,rotate='{ang_novo}':c=none:ow=iw:oh=ih,"
+        f"fade=t=in:st={SAI}:d=0.4:alpha=1[vinil_n];"
+        f"[5:v]format=rgba,fade=t=in:st={SAI}:d=0.4:alpha=1[frente_n];"
+        f"[fundo][vinil_a]overlay=x='{x0}+{saida}':y={y0}:eval=frame[a];"
+        f"[a][frente_a]overlay=x='{saida}':y=0:eval=frame[b];"
+        f"[b][vinil_n]overlay=x='{x0}+{entrada}':y={y0}:eval=frame[c];"
+        f"[c][frente_n]overlay=x='{entrada}':y=0:eval=frame,format=yuv420p"
+    )
+    subprocess.run(ff + entradas + ["-filter_complex", filtro, "-t", str(T), "-r", str(QPS),
+                   "-c:v", "libx264", "-preset", "medium", "-crf", "23", "-an",
+                   "-movflags", "+faststart", str(novo / "transicao.mp4")], check=True)
+
+
 def main():
+    if sys.argv[1] == "--transicao":
+        transicao(Path(sys.argv[2]), Path(sys.argv[3]))
+        return
     capa_png, pasta = Path(sys.argv[1]), Path(sys.argv[2])
     pasta.mkdir(parents=True, exist_ok=True)
     imagem = cairo.ImageSurface.create_from_png(str(capa_png))
-    cor = cor_de_destaque(imagem)
+    cor = cor_dominante(imagem)
 
     vinil(imagem, str(pasta / "vinil.png"))
     frente(imagem, cor, str(pasta / "frente.png"))
@@ -158,7 +223,7 @@ def main():
     subprocess.run(ff + ["-i", str(pasta / "wallpaper.novo.mp4"), "-frames:v", "1",
                          str(pasta / "wallpaper.png")], check=True)
     (pasta / "wallpaper.novo.mp4").replace(pasta / "wallpaper.mp4")
-    print("#%02x%02x%02x" % tuple(int(v * 255) for v in cor))  # cor de destaque
+    print("#%02x%02x%02x" % tuple(int(v * 255) for v in cor))  # cor dominante (usada pelo matugen)
 
 
 if __name__ == "__main__":
