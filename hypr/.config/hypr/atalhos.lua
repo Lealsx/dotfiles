@@ -67,7 +67,7 @@ atalho(mod .. " + P",         exec(scripts .. "/telas.sh"),               "Siste
 atalho(mod .. " + L",         exec(apps.bloqueio),                      "Sistema: bloquear a tela")
 atalho(mod .. " + ESCAPE",    exec(scripts .. "/menu-energia.sh"),      "Sistema: menu de energia (sair, reiniciar, desligar)")
 atalho(mod .. " + SHIFT + V", exec(scripts .. "/historico-copia.sh"),   "Sistema: histórico do copiar/colar")
-atalho(mod .. " + N",         exec("makoctl dismiss --all"),            "Sistema: limpar notificações")
+atalho(mod .. " + N",         exec("swaync-client -t -sw"),             "Sistema: Central de controle (volume, brilho, Wi-Fi, notificações...)")
 atalho(mod .. " + SHIFT + B", exec(scripts .. "/modo-economia.sh"),     "Sistema: modo economia de bateria (liga/desliga)")
 atalho(mod .. " + SHIFT + W", exec(scripts .. "/musica-tema.sh alternar"), "Sistema: tema musical — cores e fundo do álbum (liga/desliga)")
 

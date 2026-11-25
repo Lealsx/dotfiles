@@ -1,9 +1,11 @@
 // =============================================================
 //  Waybar — a barra do topo
 // =============================================================
-//  Esquerda: menu, áreas de trabalho, janela atual
+//  Esquerda: menu do Arch, áreas de trabalho
 //  Centro:   relógio (clique = calendário) + Spotify + outros players (YouTube...)
-//  Direita:  teclado, volume, brilho, rede, bateria, ícones, energia
+//  Direita:  bateria (só quando está baixa), gaveta com os ícones dos apps
+//            e o botão da Central de controle (volume, brilho, Wi-Fi,
+//            Bluetooth, economia, telas, teclado, energia e notificações)
 //  Doc: https://github.com/Alexays/Waybar/wiki
 // =============================================================
 {
@@ -15,9 +17,9 @@
     "margin-right": 10,
     "spacing": 6,
 
-    "modules-left":   ["custom/menu", "hyprland/workspaces", "hyprland/window"],
+    "modules-left":   ["custom/menu", "hyprland/workspaces"],
     "modules-center": ["clock", "group/spotify", "custom/player"],
-    "modules-right":  ["hyprland/language", "pulseaudio", "backlight", "network", "custom/economia", "custom/telas", "battery", "tray", "custom/energia"],
+    "modules-right":  ["battery", "group/bandeja", "custom/central"],
 
     // Botão que abre o menu de aplicativos
     "custom/menu": {
@@ -53,12 +55,6 @@
         },
         "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
         "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'"
-    },
-
-    // Título da janela com foco
-    "hyprland/window": {
-        "max-length": 50,
-        "separate-outputs": true
     },
 
     "clock": {
@@ -129,78 +125,62 @@
         "escape": false
     },
 
-    // Teclado atual: clique para trocar (o mesmo que Super + Espaço)
-    "hyprland/language": {
-        "format": "󰌌 {}",
-        "format-en": "US",
-        "format-pt": "BR",
-        "on-click": "hyprctl switchxkblayout all next"
-    },
-
-    // Volume: clique = mudo | botão direito = controle de som | rolar = volume
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-muted": "󰝟 mudo",
-        "format-icons": { "headphone": "\uf025", "default": ["\uf026", "\uf027", "\uf028"] },
-        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "on-click-right": "pavucontrol",
-        "scroll-step": 5
-    },
-
-    "backlight": {
-        "format": "{icon} {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"],
-        "on-scroll-up": "brightnessctl set 5%+",
-        "on-scroll-down": "brightnessctl set 5%-"
-    },
-
-    // Rede: clique = configurações de rede
-    "network": {
-        "format-wifi": "\uf1eb {essid}",
-        "format-ethernet": "󰈀 cabo",
-        "format-disconnected": "󰖪 sem rede",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
-        "on-click": "nm-connection-editor"
-    },
-
-    // Botão de telas: clique abre o menu de posição (em cima, ao lado,
-    // espelhar, só uma tela...). O mesmo que Super + P.
-    "custom/telas": {
-        "exec": "~/.config/hypr/scripts/telas.sh status",
-        "return-type": "json",
-        "interval": "once",
-        "signal": 9,
-        "on-click": "~/.config/hypr/scripts/telas.sh"
-    },
-
-    // Folha = modo economia de bateria. Verde = ligado. Clique liga/desliga.
-    // "signal": o script avisa a barra na hora (pkill -RTMIN+8 waybar)
-    "custom/economia": {
-        "exec": "~/.config/hypr/scripts/modo-economia.sh status",
-        "return-type": "json",
-        "interval": "once",
-        "signal": 8,
-        "on-click": "~/.config/hypr/scripts/modo-economia.sh"
-    },
-
+    // Bateria: só aparece quando está baixa (25% ou menos) e fora da tomada.
+    // No resto do tempo o formato é vazio e o módulo some (veja na Central).
     "battery": {
         "states": { "warning": 25, "critical": 10 },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "\uf1e6 {capacity}%",
+        "format": "",
+        "format-warning": "{icon} {capacity}%",
+        "format-critical": "{icon} {capacity}%",
+        "format-charging": "",
+        "format-plugged": "",
         "format-icons": ["󰂎", "󰁺", "󰁼", "󰁾", "󰂀", "󰂂", "󰁹"],
         "tooltip-format": "{timeTo}"
     },
 
-    // Ícones de apps em segundo plano (Wi-Fi, Bluetooth, etc.)
+    // Gaveta: a setinha abre/fecha os ícones dos apps em segundo plano
+    // (Spotify, Wi-Fi, Bluetooth...) — recurso "drawer" da própria Waybar
+    "group/bandeja": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 400,
+            "children-class": "item-bandeja",
+            "click-to-reveal": true,
+            "transition-left-to-right": false
+        },
+        "modules": ["custom/seta", "tray"]
+    },
+    "custom/seta": {
+        "format": "\uf053",
+        "tooltip-format": "Apps em segundo plano (clique para mostrar)"
+    },
+
+    // Botão da Central de controle (SwayNC): clique abre/fecha o painel;
+    // botão direito liga/desliga o "não perturbe". O ícone mostra se há
+    // notificações novas e se o "não perturbe" está ligado.
+    "custom/central": {
+        "exec": "swaync-client -swb",
+        "return-type": "json",
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "\uf1de<span foreground='#ff7b5c'><sup> ●</sup></span>",
+            "none": "\uf1de",
+            "dnd-notification": "\uf1f6<span foreground='#ff7b5c'><sup> ●</sup></span>",
+            "dnd-none": "\uf1f6",
+            "inhibited-notification": "\uf1de<span foreground='#ff7b5c'><sup> ●</sup></span>",
+            "inhibited-none": "\uf1de",
+            "dnd-inhibited-notification": "\uf1f6<span foreground='#ff7b5c'><sup> ●</sup></span>",
+            "dnd-inhibited-none": "\uf1f6"
+        },
+        "tooltip-format": "Central de controle (Super + N)",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    // Ícones de apps em segundo plano (dentro da gaveta acima)
     "tray": {
         "icon-size": 16,
         "spacing": 8
-    },
-
-    "custom/energia": {
-        "format": "\uf011",
-        "tooltip-format": "Energia (Super + Esc)",
-        "on-click": "~/.config/hypr/scripts/menu-energia.sh"
     }
 }

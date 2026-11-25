@@ -12,12 +12,12 @@
 #   3) matugen gera as cores do sistema a partir da cor dominante e escreve os
 #      arquivos "cores" de cada app
 #      (modelos em ~/.config/matugen/modelos)
-#   4) recarrega Hyprland (bordas), Waybar, kitty e mako, e troca o papel de parede
+#   4) recarrega Hyprland (bordas), Waybar, kitty e a Central (SwayNC) e troca o papel de parede
 #  Spotify fechado/parado → fica o último álbum.
 #
 #  Quando troca a MÚSICA (mesmo sem trocar de álbum), animações rápidas,
 #  que acontecem uma vez só (não pesam):
-#   - cartão "Tocando agora" com a capa, deslizando pela direita (mako)
+#   - cartão "Tocando agora" com a capa, deslizando pela direita (SwayNC)
 #   - pulso de luz na borda da janela ativa, na cor do álbum
 #  Desligado → volta o tema Muzan (cores-muzan.* e o papel de parede normal).
 # =============================================================
@@ -34,7 +34,7 @@ PARES=(
     "$HOME/.config/waybar/cores.css:$HOME/.config/waybar/cores-muzan.css"
     "$HOME/.config/rofi/cores.rasi:$HOME/.config/rofi/cores-muzan.rasi"
     "$HOME/.config/kitty/cores.conf:$HOME/.config/kitty/cores-muzan.conf"
-    "$HOME/.config/mako/cores:$HOME/.config/mako/cores-muzan"
+    "$HOME/.config/swaync/cores.css:$HOME/.config/swaync/cores-muzan.css"
 )
 
 # Volta as cores do Muzan (o Hyprland usa cores-muzan.lua quando cores.lua não existe)
@@ -53,7 +53,7 @@ aplicar_cores() {
     hyprctl reload config-only >/dev/null   # bordas e brilho (sem mexer nos monitores)
     pkill -SIGUSR2 -x waybar                # recarrega a barra
     pkill -SIGUSR1 -x kitty                 # recarrega as cores dos terminais abertos
-    makoctl reload 2>/dev/null              # notificações
+    swaync-client -rs >/dev/null 2>&1       # Central de controle e notificações
     # o Rofi lê as cores sozinho cada vez que abre
 }
 
@@ -122,7 +122,7 @@ troca_de_musica() {
     if [ "$url" != "$(cat "$CACHE/cartao.url" 2>/dev/null)" ]; then
         curl -sf --max-time 10 -o "$CACHE/cartao.jpg" "$url" && echo "$url" > "$CACHE/cartao.url"
     fi
-    # -a: nome do app (o mako usa para o estilo do cartão)
+    # -a: nome do app (o SwayNC usa para não guardar o cartão no histórico)
     # synchronous: um cartão novo SUBSTITUI o anterior, em vez de empilhar
     notify-send -a "Tocando agora" -i "$CACHE/cartao.jpg" -t 5000 \
         -h string:x-canonical-private-synchronous:musica \

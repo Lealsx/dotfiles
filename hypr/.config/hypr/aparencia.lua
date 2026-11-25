@@ -124,7 +124,8 @@ hl.config({
 
 -- Animação própria de cada menu (regras de "layer", por nome)
 hl.layer_rule({ name = "anim-rofi",         match = { namespace = "^rofi$" },          animation = "popin 90%" })
-hl.layer_rule({ name = "anim-notificacoes", match = { namespace = "^notifications$" }, animation = "slide right" })
+hl.layer_rule({ name = "anim-notificacoes", match = { namespace = "^swaync-notification-window$" }, animation = "slide right" })
+hl.layer_rule({ name = "anim-central",      match = { namespace = "^swaync-control-center$" },      animation = "slide right" })
 hl.layer_rule({ name = "anim-bloqueio",     match = { namespace = "^hyprlock$" },      animation = "fade" })
 
 -- Desfoque atrás do menu (o fundo dele é semitransparente).

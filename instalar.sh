@@ -10,7 +10,7 @@ set -euo pipefail
 shopt -s nullglob   # pastas sem .config (ex.: icones) não quebram o loop
 
 cd "$(dirname "$0")"
-PASTAS=(hypr waybar rofi mako kitty swappy icones matugen)
+PASTAS=(hypr waybar rofi swaync kitty swappy icones matugen)
 
 echo "==> Instalando pacotes..."
 grep -vE '^\s*(#|$)' pacotes.txt | sudo pacman -S --needed -
@@ -34,7 +34,7 @@ for par in hypr/.config/hypr/cores-muzan.lua:- \
            waybar/.config/waybar/cores-muzan.css:waybar/.config/waybar/cores.css \
            rofi/.config/rofi/cores-muzan.rasi:rofi/.config/rofi/cores.rasi \
            kitty/.config/kitty/cores-muzan.conf:kitty/.config/kitty/cores.conf \
-           mako/.config/mako/cores-muzan:mako/.config/mako/cores; do
+           swaync/.config/swaync/cores-muzan.css:swaync/.config/swaync/cores.css; do
     destino="${par#*:}"
     [ "$destino" = "-" ] && continue     # o Hyprland usa o cores-muzan.lua sozinho
     [ -f "$destino" ] || cp "${par%%:*}" "$destino"

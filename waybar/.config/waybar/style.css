@@ -25,8 +25,7 @@ window#waybar {
 }
 
 /* Cada módulo vira uma "pílula" arredondada */
-#custom-menu, #workspaces, #window, #clock, #custom-player, #language, #pulseaudio,
-#backlight, #network, #custom-economia, #custom-telas, #battery, #tray, #custom-energia {
+#custom-menu, #workspaces, #clock, #custom-player, #battery, #bandeja, #custom-central {
     background: alpha(@fundo, 0.85);
     border-radius: 10px;
     padding: 0 12px;
@@ -35,8 +34,8 @@ window#waybar {
 /* Quando não há janela aberta, esconde a pílula do título */
 window#waybar.empty #window { background: transparent; }
 
-/* Pílulas só de ícone (Arch, economia, telas, desligar): todas com a mesma largura */
-#custom-menu, #custom-economia, #custom-telas, #custom-energia {
+/* Pílulas só de ícone (Arch e Central): mesma largura */
+#custom-menu, #custom-central {
     min-width: 20px;
     padding: 0 14px;
 }
@@ -182,4 +181,28 @@ tooltip label { color: @texto; }
     letter-spacing: 1px;
 }
 
+/* =============================================================
+   Direita da barra: gaveta dos apps + botão da Central
+   ============================================================= */
 
+/* Gaveta: a setinha fica sempre; os ícones dos apps aparecem ao clicar */
+#bandeja { padding: 0 10px; }
+#custom-seta { color: @apagado; padding: 0 4px; transition: all 0.25s ease; }
+#custom-seta:hover { color: @destaque; }
+.item-bandeja { padding: 0 2px; }
+
+/* Botão da Central de controle */
+#custom-central {
+    color: @destaque;
+    font-size: 15px;
+    transition: all 0.25s ease;
+}
+#custom-central:hover {
+    background: @destaque;
+    color: @fundo;
+}
+/* "não perturbe" ligado: ícone apagado */
+#custom-central.dnd-none, #custom-central.dnd-notification { color: @apagado; }
+
+/* Bateria baixa (só aparece nesses casos) */
+#battery.warning  { color: @amarelo; }

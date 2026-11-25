@@ -13,7 +13,7 @@ Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacion
 | `hypr/` | [Hyprland](https://hypr.land) 0.57+ | Gerenciador de janelas (config em **Lua**) + bloqueio, inatividade e papel de parede |
 | `waybar/` | [Waybar](https://github.com/Alexays/Waybar) | Barra do topo |
 | `rofi/` | [Rofi](https://github.com/davatorium/rofi) | Menu de aplicativos |
-| `mako/` | [mako](https://github.com/emersion/mako) | Notificações |
+| `swaync/` | [SwayNC](https://github.com/ErikReider/SwayNotificationCenter) | Notificações + Central de controle (`Super + N`) |
 | `kitty/` | [kitty](https://sw.kovidgoyal.net/kitty/) | Terminal |
 | `swappy/` | [swappy](https://github.com/jtheoof/swappy) | Editor de capturas de tela |
 | `icones/` | — | Cursor padrão (`~/.icons/default`) para apps que não seguem o tema |
@@ -116,7 +116,7 @@ Depois é só sair da sessão e escolher **Hyprland (uwsm-managed)** na tela de 
 | `Super + L` | Bloquear a tela |
 | `Super + Esc` | Menu de energia (bloquear, suspender, sair, reiniciar, desligar) |
 | `Super + Shift + V` | Histórico do copiar/colar |
-| `Super + N` | Limpar notificações |
+| `Super + N` (ou o botão ☰ da barra) | **Central de controle**: Spotify, volume, brilho, Wi-Fi, Bluetooth, economia, tema musical, telas, teclado, bloquear, energia e notificações |
 | `Super + Shift + B` | Modo economia de bateria (liga/desliga) |
 
 ### Spotify na barra
@@ -154,7 +154,24 @@ Para quando estiver fora de casa. Liga/desliga com `Super + Shift + B` ou clican
 | Branco rosado | `#f5ecee` | texto |
 
 As cores ficam em `aparencia.lua` (bordas e sombra), `waybar/style.css` (`@define-color`),
-`rofi/config.rasi`, `mako/config`, `kitty.conf` e `hyprlock.conf`.
+`rofi/config.rasi`, `swaync/style.css`, `kitty.conf` e `hyprlock.conf`.
+
+## Central de controle 🎛️
+
+A barra mostra só o essencial (ícone do Arch, áreas de trabalho, relógio, Spotify,
+bateria quando está baixa, a gaveta dos apps e o botão ☰). O resto fica na
+**Central de controle** ([SwayNC](https://github.com/ErikReider/SwayNotificationCenter)),
+que abre pela direita com `Super + N` ou clicando no botão ☰:
+
+- player do Spotify com a capa;
+- controles de **volume** e **brilho**;
+- botões: **Wi-Fi**, **Bluetooth**, **modo economia**, **tema musical** (acesos quando
+  ligados), **telas**, **teclado US ⇄ BR**, **bloquear** e **energia**;
+- **não perturbe** e o histórico de notificações (o SwayNC também é o servidor de
+  notificações; o cartão "Tocando agora" não fica no histórico).
+
+Botão direito no ☰ liga/desliga o "não perturbe". Configuração: `swaync/config.json`
+(widgets e botões) e `swaync/style.css` (visual; cores em `cores.css`).
 
 ## Tema musical (Spotify) 🎵
 
