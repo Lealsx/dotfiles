@@ -83,6 +83,17 @@ window#waybar.empty #window { background: transparent; }
 }
 #custom-spotify          { color: @spotify; padding: 0 8px; }
 #custom-spotify.fechado  { color: @apagado; }
+
+/* Música nova: o nome acende e "desce" de volta ao normal — roda UMA vez
+   (a classe "nova" vem do spotify.sh por 2,5 s quando a música muda) */
+@keyframes musica-nova {
+    0%   { color: #ffffff; background: alpha(@destaque, 0.55); text-shadow: 0 0 10px @destaque; }
+    100% { color: @spotify; background: transparent;            text-shadow: none; }
+}
+#custom-spotify.nova {
+    border-radius: 8px;
+    animation: musica-nova 1.4s ease-out 1;
+}
 #custom-spotify.pausado  { color: @apagado; }
 #custom-spotify-anterior,
 #custom-spotify-play,

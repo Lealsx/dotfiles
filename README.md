@@ -168,7 +168,10 @@ O sistema muda com o **álbum que está tocando no Spotify** (`hypr/scripts/musi
 4. recarrega as **bordas** (Hyprland), a **barra**, o **terminal** e as **notificações**;
    o **menu** pega as cores novas ao abrir.
 
-- Só refaz quando muda o **álbum** (mesma capa = nada acontece).
+- **A cada música nova** (animações que rodam uma vez só, não pesam):
+  um cartão **"Tocando agora"** com a capa desliza pela direita, o nome da música
+  **acende** na barra e a borda da janela ativa dá um **pulso** na cor do álbum.
+- Papel de parede e cores só são refeitos quando muda o **álbum** (mesma capa = nada acontece).
 - Spotify fechado/parado → **fica o último álbum**.
 - `Super + Shift + W` liga/desliga; desligado volta o **tema Muzan**.
 - Cada app lê um arquivo `cores` (gerado, fora do Git); o padrão Muzan fica em `cores-muzan.*`.

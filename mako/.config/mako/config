@@ -19,3 +19,8 @@ include=~/.config/mako/cores
 
 [urgency=high]
 default-timeout=0
+
+# Cartão "Tocando agora" (troca de música no Spotify): capa grande, some em 5 s
+[app-name="Tocando agora"]
+max-icon-size=96
+default-timeout=5000

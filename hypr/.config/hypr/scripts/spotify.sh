@@ -41,7 +41,16 @@ case "$1" in
             [ -n "$artista" ] && texto="$musica · $artista"
             (( ${#texto} > 40 )) && texto="${texto:0:39}…"   # corta textos longos
             if [ "$estado" = "Playing" ]; then
-                mostrar "$texto" "$musica"$'\n'"$artista — $album" "tocando"
+                dica="$musica"$'\n'"$artista — $album"
+                if [ "$musica" != "$anterior" ] && [ -n "$anterior" ]; then
+                    # música nova: classe "nova" por 2,5 s → o CSS faz um flash
+                    # (animação que roda uma vez só; não pesa)
+                    mostrar "$texto" "$dica" "tocando nova"
+                    ( sleep 2.5; mostrar "$texto" "$dica" "tocando" ) &
+                else
+                    mostrar "$texto" "$dica" "tocando"
+                fi
+                anterior="$musica"
             else
                 mostrar "$texto" "Pausado: $musica"$'\n'"$artista — $album" "pausado"
             fi
