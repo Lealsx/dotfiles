@@ -24,22 +24,25 @@ require("economia")
 -- ---------- Monitores ----------
 -- Para ver os nomes, resoluções e posições: hyprctl monitors
 --   scale    → tamanho de tudo na tela (1 = normal, 1.25 = 25% maior...)
---   position → onde a tela fica, em pixels; "1920x0" = à direita de uma tela de 1920 de largura
+--   position → onde a tela fica, em pixels ("X x Y"; Y cresce para BAIXO):
+--              "0x0" = em cima | "0x1080" = embaixo de uma tela de 1080 de altura
 
--- Tela do notebook (15,6", 1920x1080 a 144 Hz) — fica à esquerda
+-- Tela do notebook (15,6", 1920x1080 a 144 Hz) — fica EMBAIXO do monitor externo
 -- No modo economia cai para 60 Hz (gasta bem menos bateria)
 hl.monitor({
     output   = "eDP-1",
     mode     = economia and "1920x1080@60" or "1920x1080@144",
-    position = "0x0",
+    position = "0x1080",
     scale    = 1,
 })
 
--- Monitor externo (cabo DisplayPort/USB-C) — fica à direita do notebook
+-- Monitor externo (LG UltraGear) — fica EM CIMA do notebook.
+-- Identificado pelo MODELO ("desc:"), não pela porta: vale no HDMI, no
+-- DisplayPort ou no USB-C. Para ver a descrição: hyprctl monitors
 hl.monitor({
-    output   = "DP-2",
+    output   = "desc:LG Electronics LG ULTRAGEAR",
     mode     = "1920x1080@144",
-    position = "1920x0",
+    position = "0x0",
     scale    = 1,
 })
 
