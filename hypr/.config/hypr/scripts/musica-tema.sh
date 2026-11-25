@@ -105,10 +105,41 @@ cores_do_album() {
     matugen color hex "$1" -m dark -t scheme-content -q
 }
 
+# ---------- "último pedido vence" ----------
+# Quem ESCUTA o Spotify só anota o álbum mais recente em $PEDIDO e acorda o
+# "ajudante". O ajudante espera você parar de pular músicas, gera SÓ o álbum
+# mais recente e, ao terminar, confere de novo (você pode ter pulado de novo
+# enquanto ele gerava). Assim quem escuta nunca fica travado gerando vídeo,
+# e pular várias músicas rápido termina sempre no álbum certo.
+PEDIDO="$CACHE/pedido"
+
+ajudante() {
+    exec 8>"$CACHE/ajudante.lock"
+    flock -n 8 || return          # já tem um ajudante trabalhando
+    while true; do
+        sleep 1.5                 # espera parar de pular
+        local alvo
+        alvo=$(cat "$PEDIDO" 2>/dev/null)
+        if [ -z "$alvo" ] || [ "$alvo" = "$(cat "$ULTIMO" 2>/dev/null)" ]; then
+            # nada novo: solta a trava e confere uma última vez (um pedido pode
+            # ter chegado bem agora, enquanto outro ajudante não podia entrar)
+            flock -u 8
+            alvo=$(cat "$PEDIDO" 2>/dev/null)
+            [ -z "$alvo" ] || [ "$alvo" = "$(cat "$ULTIMO" 2>/dev/null)" ] && return
+            flock -n 8 || return
+            continue
+        fi
+        [ -e "$DESLIGADO" ] || novo_album "$alvo"
+        [ -e "$DESLIGADO" ] && echo "$alvo" > "$ULTIMO"
+    done
+}
+
 novo_album() {
     local url="$1"
     curl -sf --max-time 15 -o "$CACHE/capa.jpg" "$url" || return
     nice -n 15 ffmpeg -v error -y -i "$CACHE/capa.jpg" "$CACHE/capa.png" || return
+    # pulou de álbum enquanto baixava? deixa o próximo giro do ajudante cuidar
+    [ "$url" = "$(cat "$PEDIDO" 2>/dev/null)" ] || return
     gerar || return
     echo "$url" > "$ULTIMO"
     trocar_fundo      # a transição e as cores novas começam juntas
@@ -172,8 +203,9 @@ while true; do
             faixa_anterior="$faixa"
         fi
         [ -e "$DESLIGADO" ] && continue                    # tema musical desligado
-        [ "$url" = "$(cat "$ULTIMO" 2>/dev/null)" ] && continue   # mesmo álbum
-        novo_album "$url"
+        [ "$url" = "$(cat "$PEDIDO" 2>/dev/null)" ] && continue   # já anotado
+        echo "$url" > "$PEDIDO"                            # anota o mais recente...
+        ajudante 9>&- &                                    # ...e acorda o ajudante
     done
     sleep 5   # o playerctl saiu (ex.: reinício do sistema de som): tenta de novo
 done
