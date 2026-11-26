@@ -6,6 +6,8 @@ Tema **Muzan** (Demon Slayer): preto, carmesim e brasa, com papel de parede anim
 cantos arredondados, desfoque e animações dramáticas.
 Feito para um notebook (Intel + NVIDIA) com dois teclados: **inglês internacional** e **português ABNT2**.
 
+> 📘 **Manual de uso** (onde fica cada coisa, como mudar e aplicar): [GUIA.md](GUIA.md)
+
 ## O que tem aqui
 
 | Pasta | Programa | Para que serve |

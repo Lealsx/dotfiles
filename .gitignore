@@ -13,3 +13,6 @@ waybar/.config/waybar/cores.css
 rofi/.config/rofi/cores.rasi
 kitty/.config/kitty/cores.conf
 swaync/.config/swaync/cores.css
+
+# Cache do Python
+__pycache__/
