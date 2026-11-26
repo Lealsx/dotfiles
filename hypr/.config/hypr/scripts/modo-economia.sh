@@ -26,6 +26,8 @@ fi
 if [ -e "$marcador" ]; then
     rm -f "$marcador"
     powerprofilesctl set balanced
+    rfkill unblock bluetooth           # desfaz um bloqueio do rádio, se houver
+    sleep 0.5
     bluetoothctl power on >/dev/null
     mensagem="Desligado: desempenho normal, 144 Hz e efeitos de volta."
 else

@@ -77,7 +77,7 @@
         {
           "label": "",
           "type": "toggle",
-          "command": "sh -c '[ \"$SWAYNC_TOGGLE_STATE\" = true ] && bluetoothctl power on || bluetoothctl power off'",
+          "command": "sh -c '[ \"$SWAYNC_TOGGLE_STATE\" = true ] && { rfkill unblock bluetooth; sleep 0.5; bluetoothctl power on; } || bluetoothctl power off'",
           "update-command": "sh -c 'bluetoothctl show | grep -q \"Powered: yes\" && echo true || echo false'"
         },
         {
