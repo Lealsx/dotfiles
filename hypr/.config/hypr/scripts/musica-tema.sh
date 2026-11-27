@@ -23,11 +23,20 @@
 # =============================================================
 
 CACHE="$HOME/.cache/musica"
+LOG="$CACHE/log"                  # registro do que aconteceu (para investigar problemas)
 ALBUM="$CACHE/album"              # papel de parede do álbum atual (vídeo + imagem)
 ULTIMO="$CACHE/ultimo"            # URL da última capa aplicada
 DESLIGADO="$CACHE/desligado"      # existe = tema musical desligado
 SCRIPTS="$HOME/.config/hypr/scripts"
 mkdir -p "$CACHE"
+
+registrar() {   # escreve uma linha no log (guarda só as últimas 300)
+    echo "$(date '+%d/%m %H:%M:%S') $*" >> "$LOG"
+    if [ "$(wc -l < "$LOG")" -gt 300 ]; then
+        tail -n 200 "$LOG" > "$LOG.tmp" && mv "$LOG.tmp" "$LOG"
+    fi
+    return 0   # registrar nunca "falha" (senão quem chamou acha que deu erro)
+}
 
 # Arquivos de cores de cada app: <arquivo que o app lê>:<padrão Muzan>
 PARES=(
@@ -59,20 +68,30 @@ aplicar_cores() {
 
 # Gera papel de parede + cores a partir de uma capa já baixada ($CACHE/capa.png)
 gerar() {
-    rm -rf "$ALBUM.novo"
+    # Cada álbum ganha uma pasta própria (album-<número>) e "album" é um ATALHO
+    # para a pasta atual. Trocar o atalho é instantâneo e nunca fica pela metade:
+    # o papel de parede sempre encontra um álbum completo.
+    local nova="$CACHE/album-$(date +%s%N)"
     # o gerador devolve a COR DOMINANTE da capa (ex.: #a86668)
     local cor
-    cor=$("$SCRIPTS/musica-wallpaper.py" "$CACHE/capa.png" "$ALBUM.novo") || return 1
-    echo "$cor" > "$ALBUM.novo/cor"
+    cor=$("$SCRIPTS/musica-wallpaper.py" "$CACHE/capa.png" "$nova") \
+        || { registrar "ERRO ao gerar o papel de parede"; rm -rf "$nova"; return 1; }
+    [ -f "$nova/wallpaper.png" ] && [ -f "$nova/wallpaper.mp4" ] \
+        || { registrar "ERRO: papel de parede incompleto"; rm -rf "$nova"; return 1; }
+    echo "$cor" > "$nova/cor"
     # transição "trocando o disco" do álbum antigo para o novo (se houver antigo)
     if [ -f "$ALBUM/fundo.png" ]; then
-        "$SCRIPTS/musica-wallpaper.py" --transicao "$ALBUM" "$ALBUM.novo" || true
+        "$SCRIPTS/musica-wallpaper.py" --transicao "$ALBUM" "$nova" \
+            || registrar "aviso: transição falhou (segue sem ela)"
     fi
-    # o álbum novo vira o atual (o mpv continua lendo o antigo até a troca)
-    rm -rf "$ALBUM.antigo"
-    [ -d "$ALBUM" ] && mv "$ALBUM" "$ALBUM.antigo"
-    mv "$ALBUM.novo" "$ALBUM"
+    # troca o atalho de uma vez (ln + mv -T é atômico)
+    [ -d "$ALBUM" ] && [ ! -L "$ALBUM" ] && mv "$ALBUM" "$CACHE/album-antigo-pasta"
+    ln -sfn "$nova" "$CACHE/album.atalho" && mv -T "$CACHE/album.atalho" "$ALBUM"
+    # apaga pastas velhas, mantendo a atual e a anterior (o vídeo pode ainda estar lendo)
+    ls -1dt "$CACHE"/album-* 2>/dev/null | tail -n +3 | xargs -r rm -rf
+    rm -rf "$CACHE/album.novo" "$CACHE/album.antigo"
     cores_do_album "$cor"
+    registrar "álbum gerado: $(basename "$nova") cor $cor"
 }
 
 # Manda um comando para o mpv do papel de parede (JSON pelo socket)
@@ -96,7 +115,7 @@ trocar_fundo() {
         mpv_comando loadfile "$ALBUM/transicao.mp4" replace -1 "loop-file=no"
         mpv_comando loadfile "$ALBUM/wallpaper.mp4" append -1 "loop-file=inf"
     else
-        setsid "$SCRIPTS/wallpaper.sh" >/dev/null 2>&1 9>&-
+        setsid "$SCRIPTS/wallpaper.sh" >/dev/null 2>&1 8>&- 9>&-
     fi
 }
 
@@ -136,10 +155,11 @@ ajudante() {
 
 novo_album() {
     local url="$1"
-    curl -sf --max-time 15 -o "$CACHE/capa.jpg" "$url" || return
+    registrar "novo álbum: $url"
+    curl -sf --max-time 15 -o "$CACHE/capa.jpg" "$url" || { registrar "ERRO ao baixar a capa"; return; }
     nice -n 15 ffmpeg -v error -y -i "$CACHE/capa.jpg" "$CACHE/capa.png" || return
     # pulou de álbum enquanto baixava? deixa o próximo giro do ajudante cuidar
-    [ "$url" = "$(cat "$PEDIDO" 2>/dev/null)" ] || return
+    [ "$url" = "$(cat "$PEDIDO" 2>/dev/null)" ] || { registrar "pulou para outro álbum durante o download"; return; }
     gerar || return
     echo "$url" > "$ULTIMO"
     trocar_fundo      # a transição e as cores novas começam juntas
@@ -179,14 +199,15 @@ if [ "$1" = "alternar" ]; then
         msg="Desligado: voltou o tema Muzan."
     fi
     aplicar_cores
-    setsid "$SCRIPTS/wallpaper.sh" >/dev/null 2>&1 9>&-   # 9>&-: o vídeo não herda a trava (flock)
+    setsid "$SCRIPTS/wallpaper.sh" >/dev/null 2>&1 8>&- 9>&-   # não herda as travas (flock)
     notify-send -i spotify "Tema musical" "$msg"
     exit 0
 fi
 
 # ---------- modo escuta (uma instância só) ----------
-# A trava fica no descritor 9; os programas abertos daqui (ex.: o vídeo do
-# fundo) recebem "9>&-" para não herdá-la — senão ela ficaria presa neles.
+# Travas: descritor 9 = quem escuta; 8 = o ajudante. Os programas abertos
+# daqui (ex.: o papel de parede) recebem "8>&- 9>&-" para não herdá-las —
+# senão elas ficariam presas neles e o tema musical parava de trocar.
 exec 9>"$CACHE/lock"
 flock -n 9 || exit 0
 
@@ -203,7 +224,9 @@ while true; do
             faixa_anterior="$faixa"
         fi
         [ -e "$DESLIGADO" ] && continue                    # tema musical desligado
-        [ "$url" = "$(cat "$PEDIDO" 2>/dev/null)" ] && continue   # já anotado
+        # já anotado E já aplicado: nada a fazer (se só foi anotado, por exemplo
+        # porque a geração falhou, tenta de novo)
+        [ "$url" = "$(cat "$PEDIDO" 2>/dev/null)" ] && [ "$url" = "$(cat "$ULTIMO" 2>/dev/null)" ] && continue
         echo "$url" > "$PEDIDO"                            # anota o mais recente...
         ajudante 9>&- &                                    # ...e acorda o ajudante
     done
