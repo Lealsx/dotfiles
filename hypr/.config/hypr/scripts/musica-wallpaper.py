@@ -149,7 +149,7 @@ def frente(imagem, cor, saida):
 
 
 TRANSICAO = 2.4    # duração da transição (s)
-SAI, ENTRA = 0.9, 1.5   # o antigo sai em 0,9 s; o novo entra em 1,5 s
+SAI, ENTRA = 0.5, 1.5   # o antigo sai em 0,5 s; o novo entra em 1,5 s
 
 
 def transicao(antigo, novo):
